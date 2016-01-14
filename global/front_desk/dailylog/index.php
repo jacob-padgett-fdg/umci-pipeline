@@ -1,6 +1,6 @@
 <?
-require_once("settings.cfg");
-require_once("global-auth.inc");
+require("settings.cfg");
+require("global-auth.inc");
 
 $section_info=select_a_section();
 

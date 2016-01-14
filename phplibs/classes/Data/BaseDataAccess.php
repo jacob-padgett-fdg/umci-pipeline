@@ -7,7 +7,7 @@
  */
 
 namespace classes\Data;
-set_include_path(get_include_path() . ';' . $_SERVER['DOCUMENT_ROOT']);
+set_include_path(get_include_path() . ':' . $_SERVER['DOCUMENT_ROOT']);
 
 require_once('classes/Config.php');
 
@@ -32,9 +32,7 @@ class BaseDataAccess
         $config = Config::getInstance();
         try {
             //$dbh = new PDO('mysql:host=' . $config['db_host'] . ';dbname=' . $config['db_name'], $config['db_user'], $config['db_pass']);
-            //$dbh = new PDO('mysql:dbname=' . $config['db_name'], $config['db_user'], $config['db_pass']);
-            //$dbh = new PDO('mysql:dbname=' . 'global', 'globalreadwrite', '');
-            $dbh = new PDO('mysql:host=' . '127.0.0.1:3306' . ';dbname=' . 'global', 'globalreadwrite', '');
+            $dbh = new PDO('mysql:dbname=' . $config['db_name'], $config['db_user'], $config['db_pass']);
             return $dbh;
         } catch (PDOException $e) {
             echo $e->getMessage();
