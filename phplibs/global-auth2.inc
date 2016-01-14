@@ -9,12 +9,13 @@ require_once('auth_functions.inc');
 $devel="";
 //error_reporting(E_ALL ^ E_DEPRECATED ^ E_NOTICE);
 
+/*
 if (@ereg("-devel/",$SCRIPT_FILENAME)) {
 	$devel="-devel";
 	} else {
 	ini_set("display_errors",0);
 	}
-
+*/
 if ($mode!="") {
 	$mode=ereg_replace("[^a-zA-Z0-9_]","",$mode);
 	}

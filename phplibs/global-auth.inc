@@ -4,7 +4,7 @@ require_once('classes/Authorization/AccessControl.php');
 
 use classes\Authorization\AccessControl;
 
-////$debug = 1;
+$debug = 1;
 
 if ($debug == 1) {
     error_reporting(E_ALL);
@@ -13,23 +13,28 @@ if ($debug == 1) {
 require_once('querylib.inc');
 require_once('auth_functions.inc');
 
+
+
 // TBC TEMP CODE
 if (true || !isset($dbserver)) {
-    $dbserver = 'localhost:3306';
+    $dbserver = '127.0.0.1:3306';
 }
 //$dbserver='10.0.0.23';
 $devel = "";
 //error_reporting(E_ALL ^ E_DEPRECATED ^ E_NOTICE);
 
+/*
 if (@ereg("-devel/", $SCRIPT_FILENAME)) {
     $devel = "-devel";
 } else {
     ini_set("display_errors", 0);
 }
+*/
 
 if ($mode != "") {
     $mode = ereg_replace("[^a-zA-Z0-9_]", "", $mode);
 }
+
 
 //* always looking at $_SERVER['DOCUMENT_ROOT'] causes failure when running scripts
 //* this is one untested portable solution (probably)
@@ -39,8 +44,11 @@ if ($mode != "") {
 //* but the following well-tested old code should renable scripts w/o breaking webserver
     if (file_exists(realpath('/data/web/pipeline/config/config.ini')))
         $inifile = '/data/web/pipeline/config/config.ini';
-
+    else
+		$inifile = '/config/site.ini';
+		
 $config = parse_ini_file($inifile);
+
 
 // FRON-41 Read in company id if it's present; This is used to
 // restrict invoice tallies by company.
@@ -48,23 +56,25 @@ if (isset($config['company_id'])) {
     $_SESSION['companyId'] = $config->company_id;
 }
 
-/*$auth_database_user="globalreadwrite";
-$auth_database_pass="poilkjbnm";
+$auth_database_user="globalreadwrite";
+//$auth_database_pass="poilkjbnm";
+$auth_database_pass="";
 $auth_database_name="global";
-$encryption_seed='zed';*/
+$encryption_seed='zed';
 
+/*
 $auth_database_user = $config['db_user'];
 $auth_database_pass = $config['db_pass'];
 $auth_database_name = $config['db_name'];
 $encryption_seed = $config['encryption_seed'];
-
+*/
 //session_name('sess-' . $auth_database_name);
 //session_start();
-session_register('auth_backend_user_logged_in');
-session_register('auth_backend_database_username');
-session_register('auth_backend_database_password');
-session_register('auth_backend_database_global_user_id');
-session_register('global_jobinfo_id');
+//session_register('auth_backend_user_logged_in');
+//session_register('auth_backend_database_username');
+//session_register('auth_backend_database_password');
+//session_register('auth_backend_database_global_user_id');
+//session_register('global_jobinfo_id');
 
 if ($kill_session_info) {
     $tmpu = trim($auth_user_name);
@@ -89,7 +99,11 @@ if ($kill_session_info) {
 	$auth_user_pass=$tmpp;
 	}
 
+
+	
+
 if ($auth_backend_user_logged_in!='authenticated') $auth_backend_user_logged_in=FALSE;
+
 
 if (!($auth_object)) {
     $auth_object->check_web_pw = 'Y'; // Check #2 - done
@@ -129,18 +143,21 @@ if (!($auth_object)) {
     if ($auth_object->always_attach_db != 'Y') $auth_object->always_attach_db = 'N';
 }
 
+
 // If the user has requested a login page, then we need to force
 // it to show up..
 if ($auth_session_login_requested == 1) {
     $auth_object->require_login = 'Y';
 }
 
+
+
+
 // We can do this check early since it's absolute, and it's not
 // dependant on anything else.
 if ($auth_object->require_local_networks == 'Y') {
     if (!(is_from_intranet())) die('ERROR: This page can be accessed only from the local network, not from the internet in general');
 }
-
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 // If we think we're authenticated, then check by connecting to the
@@ -163,7 +180,7 @@ if ($auth_backend_user_logged_in == 'authenticated') {
     } else {
         if ($auth_backend_database_global_user_id) {
             @mysql_select_db("$auth_database_name");
-            $global_user = getoneb("select * from contacts where contacts_id = '$auth_backend_database_global_user_id'");
+			$global_user = getoneb("select * from contacts where contacts_id = '$auth_backend_database_global_user_id'");
             if (!($global_user)) {
                 echo "WARNING: Non-fatal error. Failed to load all user information for uid \"$auth_backend_database_global_user_id\". Please notify your system administrator.";
             }
@@ -173,23 +190,28 @@ if ($auth_backend_user_logged_in == 'authenticated') {
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
+
 // Skip the authentication method if we're already logged in happily.
 if (!($auth_backend_user_logged_in)) {
+	
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 // If we use the web as a form of authentication, then lets try it
 // first. It's really much quicker than the samba authentication.
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
-    if ($auth_object->check_web_pw == 'Y') {
-        if ($SYSTEM_AUTH_REQUESTED == '1') {
-            if (($auth_user_name != "") && ($auth_user_pass != "")) {
+	if ($auth_object->check_web_pw == 'Y') {
+		print_r($HTTP_REQUEST_VARS);
+		print_r($HTTP_POST_VARS);
+		print_r($HTTP_GET_VARS);
+		if ($SYSTEM_AUTH_REQUESTED == '1') {
+			if (($auth_user_name != "") && ($auth_user_pass != "")) {
                 $auth_user_name = addslashes(trim($auth_user_name));
                 $auth_user_pass = addslashes($auth_user_pass);
 
                 $auth_link_id = @mysql_connect("$dbserver", $auth_database_user, $auth_database_pass);
                 @mysql_select_db("$auth_database_name");
-                $global_user = getoneb("select * from contacts where login_name = '$auth_user_name' and web_password = '$auth_user_pass' and current = 'Y'");
+				$global_user = getoneb("select * from contacts where login_name = '$auth_user_name' and web_password = '$auth_user_pass' and current = 'Y'");
                 @mysql_close($auth_link_id);
                 if ($global_user) {
                     $auth_backend_user_logged_in = 'authenticated';
@@ -215,10 +237,10 @@ if (!($auth_backend_user_logged_in)) {
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
     if ($auth_object->check_smb_pw == 'Y') {
-        if ($SYSTEM_AUTH_REQUESTED == '1') {
+		if ($_REQUEST["SYSTEM_AUTH_REQUESTED"] == '1') {
             $auth_user_name = escapeshellcmd($auth_user_name);
             $auth_user_pass_db_store = addslashes($auth_user_pass);
-    // FRON-4 Do not change the password as it will break LDAP auth...
+			// FRON-4 Do not change the password as it will break LDAP auth...
            //$auth_user_pass=escapeshellcmd($auth_user_pass);
 
             $smb_auth_response = ldap_test_pw($auth_user_name, $auth_user_pass);
@@ -230,7 +252,7 @@ if (!($auth_backend_user_logged_in)) {
                 @setcookie("umcgloballoginid$application_name", $auth_user_name, time() + 3024000);
                 $global_link_id = @mysql_connect($dbserver, $auth_backend_database_username, $auth_backend_database_password);
                 @mysql_select_db($auth_database_name);
-                $global_user = getoneb("select * from contacts where login_name = '$auth_user_name' and current = 'Y'");
+				$global_user = getoneb("select * from contacts where login_name = '$auth_user_name' and current = 'Y'");
                 if (!($global_user)) {
                     echo "WARNING: Non-fatal error. Failed to load all user information for uid \"$auth_backend_database_global_user_id\". Please notify your system administrator.";
                 }
@@ -247,6 +269,7 @@ if (!($auth_backend_user_logged_in)) {
 } // End of auth plugin. It's skipped if we're logged in already
 
 
+
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
 // If we're done with all our authentication methods now, let's
@@ -254,6 +277,7 @@ if (!($auth_backend_user_logged_in)) {
 // we are, or we definitely don't...
 /////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////
+
 $global_browser = "MOZILLA";
 if (eregi("msie", $HTTP_USER_AGENT)) {
     $global_browser = "IE";
@@ -261,6 +285,7 @@ if (eregi("msie", $HTTP_USER_AGENT)) {
         $GOOGLE_CHROME_FRAME_NEEDED = TRUE;
     }
 }
+
 $global_user_id = $global_user->contacts_id;
 $global_user_name = $global_user->login_name;
 if ($global_jobinfo_id_set != "") {
@@ -271,8 +296,11 @@ if ($global_jobinfo_id_set != "") {
     $current_sketchlog_section = "";
 }
 if ($global_jobinfo_id == "") {
-    $most_recent_job_info = getoneb("select jobinfo_id from jobinfo_history where contacts_id = '$global_user_id' group by jobinfo_id order by accessed desc limit 1");
-    if (!($most_recent_job_info)) $most_recent_job_info = getoneb("select jobinfo_id from jobinfo where active = 'Y' order by contract_num limit 1");
+	
+	$most_recent_job_info = getoneb("select jobinfo_id from jobinfo_history where contacts_id = '$global_user_id' group by jobinfo_id order by accessed desc limit 1");
+    
+	
+	if (!($most_recent_job_info)) $most_recent_job_info = getoneb("select jobinfo_id from jobinfo where active = 'Y' order by contract_num limit 1");
     $global_jobinfo_id = $most_recent_job_info->jobinfo_id;
 }
 $adminuser = FALSE;
@@ -357,9 +385,9 @@ if ($devel != "-devel") {
 /////////////////////////////////////////////////////////////////
 
 if ($auth_backend_target_uri != "") {
-    $target_uri = base64_decode($auth_backend_target_uri);
+	$target_uri = base64_decode($auth_backend_target_uri);
     $target_uri = ereg_replace("kill_session_info=1", "new_login=true", $target_uri);
-    echo "
+	echo "
 <META HTTP-EQUIV=\"REFRESH\" CONTENT=\"0; URL=" . $target_uri . "\">
 <html>
 <body bgcolor=#ffffff>
@@ -370,7 +398,10 @@ Loading requested page.. Please wait just one second, or click <a href=" . $targ
     exit;
 }
 
+
 if ($global_user) {
+
+	
 // This check only matters if you're a valid "logged in" user
 ////////////////////////////////////////////////////////////////
 // Check to see if we've got special permissions
@@ -441,6 +472,8 @@ if ($auth_object->check_webfile_exceptions == 'Y') {
 }
 ////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////
+
+
 
 if ($auth_object->require_local_or_logged_in == 'Y') {
     if (!(is_from_intranet())) $auth_object->require_login = 'Y';
