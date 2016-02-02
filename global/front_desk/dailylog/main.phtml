@@ -4,14 +4,7 @@ fd_navs_header();
 $today=date('m-d-Y');
 
 echo "
-<script>
-function create_new_dailylog() {
-	if(confirm('Create new log now?')) {
-		document.location='$pagename?mode=create_log';
-		}
-	}
 
-</script>
 
 <table id='sub_application_main_table' border=1 cellspacing=0 cellpadding=3>
 <thead>
@@ -30,7 +23,7 @@ include("fd_log_paging.phtml");
 
 
 echo "<br>
-<a href=javascript:create_new_dailylog()><font color=blue>Create New Daily Log</font></a><br>$page_page_insert
+<a href=javascript:create_new_dailylog('$pagename')><font color=blue>Create New Daily Log</font></a><br>$page_page_insert
 </center>
 </td></tr>
 

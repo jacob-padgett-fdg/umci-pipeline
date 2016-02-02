@@ -1,16 +1,33 @@
 <?
 $today_mysql=date('Y-m-d');
 $today=date('m/d/Y');
-$creator_info=getoneb("select * from contacts where contacts_id = '$global_user_id'");
+$sql = "select * from contacts where contacts_id = '$global_user_id'";
+$creator_info=getoneb($sql);
 $weather=standard_weather_string($global_jobinfo);
-$lognum=getoneb("select max(log_num) as max from dailylog where jobinfo_id = '$global_jobinfo->jobinfo_id' and section = '$current_dailylog_section'");
-//tabledump("select max(log_num) as max from dailylog where jobinfo_id = '$global_jobinfo->jobinfo_id' and section = '$current_dailylog_section'");exit;
 
-if ($lognum->max=="") $lognum->max='0';
-$newmax=$lognum->max + 1;
-//echo "<hr>insert into dailylog set jobinfo_id = '$global_jobinfo->jobinfo_id', section = '$current_dailylog_section', weather = '$weather', creator_id = '$global_user_id', log_num = '$newmax', work_date = '$today_mysql',description = '$creator_info->display_name from $today', project = '$global_jobinfo->display_name', status = 'new'<hr>";die();
-$global_jobinfo->display_name=addslashes($global_jobinfo->display_name);
-@mysql_query("insert into dailylog set jobinfo_id = '$global_jobinfo->jobinfo_id', section = '$current_dailylog_section', weather = '$weather', creator_id = '$global_user_id', log_num = '$newmax', work_date = '$today_mysql',description = '$creator_info->display_name from $today', project = '$global_jobinfo->display_name', status = 'new'");
-$new_id=@mysql_insert_id();
-forward("dailylog_edit&dailylog_id=$new_id");
+// first check if there is an existing log for today
+$sql = "SELECT * FROM dailylog WHERE jobinfo_id = '$global_jobinfo->jobinfo_id' and section = '$current_dailylog_section' AND work_date = '$today_mysql'";
+$result = mysql_query( $sql );
+if (mysql_num_rows($result) == 0)
+{
+    $sql = "select max(log_num) as max from dailylog where jobinfo_id = '$global_jobinfo->jobinfo_id' and section = '$current_dailylog_section'";
+    $lognum=getoneb($sql);
+    //tabledump("select max(log_num) as max from dailylog where jobinfo_id = '$global_jobinfo->jobinfo_id' and section = '$current_dailylog_section'");exit;
+    
+    if ($lognum->max=="") $lognum->max='0';
+    $newmax=$lognum->max + 1;
+    //echo "<hr>insert into dailylog set jobinfo_id = '$global_jobinfo->jobinfo_id', section = '$current_dailylog_section', weather = '$weather', creator_id = '$global_user_id', log_num = '$newmax', work_date = '$today_mysql',description = '$creator_info->display_name from $today', project = '$global_jobinfo->display_name', status = 'new'<hr>";die();
+    $global_jobinfo->display_name=addslashes($global_jobinfo->display_name);
+    $sql = "insert into dailylog set jobinfo_id = '$global_jobinfo->jobinfo_id', section = '$current_dailylog_section', weather = '$weather', creator_id = '$global_user_id', log_num = '$newmax', work_date = '$today_mysql',description = '$creator_info->display_name from $today', project = '$global_jobinfo->display_name', status = 'new'";
+    //die( $sql );
+    @mysql_query( $sql );
+    $new_id=@mysql_insert_id();
+    //die( $new_id );
+    forward("dailylog_edit&dailylog_id=$new_id&log_status=new");
+}
+else
+{
+    $row = mysql_fetch_object($result);
+    forward("dailylog_edit&dailylog_id=$row->dailylog_id&log_status=new");
+}
 ?>

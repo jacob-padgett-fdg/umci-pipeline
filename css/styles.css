@@ -51,18 +51,7 @@ table.wideprint td { border: 2px solid dimgray; padding: 2px 2px 2px 2px;}
 table.wideprint th { background-color: #DDDDDD; border: 2px solid dimgray;}
 table.wideprint th.ext { width:5%; font-weight: bold; }
 table.wideprint th.name { width:28%; font-weight: bold; }
-/*
-@media print {
-    tr.noprint { display: none; }
-    td.noprint { height: 0; width: 0; }
-    div.noprint { display: none; position: relative; border: 15px solid black;}
-    a.noprint { display: none; }
-}
-form.noprint { display: none; }
-font.noprint { display: none; }
-br.noprint { display: none; }
-p.noprint { display: none; }
-*/
+
 tr.floatheader {
     position: relative;
     top: -1px;
@@ -500,4 +489,116 @@ div.container-fluid {
 
 td.po-cost {
     text-align: right;
+}
+
+#my_jobs_drop, #recent_jobs_drop {
+    z-index: 2;
+    position: absolute;
+    width: 350px;
+    display: none;
+    background: white;
+    border: 1px solid black;
+}
+
+.flexContainer {
+    display: flex;
+    flex-direction: row;
+    background-color: #e0ebeb;
+}
+
+#fd_my_home_nav_button, #recent_jobs_button, #my_jobs_button, #job_search_header {
+    background-color: #f0f5f5;
+    text-align: center;
+    color: blue;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-family: arial;
+}
+#fd_my_home_nav_button a, #recent_jobs_button span, #my_jobs_button span {
+    text-decoration:none;
+}
+
+#job_search_header  label {
+    color: black;
+}
+
+#job_search_header form {
+    display: inline;
+}
+
+#login_status_header {
+    position: absolute;
+    right: 10px;
+    text-align: center;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-family: arial;
+}
+
+#fd_left_nav {
+    background-color: #004466;
+}
+
+#fd_left_nav table {
+    padding-top: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 0px;
+    margin-top: 5px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0px;
+    position: relative;
+    top: 2px;
+}
+
+#fd_left_nav table td.normnav {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #1a8cff;
+    padding: 3px;
+    white-space: nowrap;
+}
+
+#sub_application_main_table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.dailylog_entry {
+    background-color: #f5f5f0;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+}
+
+.dailylog_entry  div:first-child {
+    background-color: #1a8bff;
+    padding: 3px;
+    color: #ffffff;
+}
+
+.dailylog_entry label {
+    font-weight: bold;
+    width: 150px;
+    display: inline-block;
+}
+
+#dailylog_totals {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    width: 50%
 }

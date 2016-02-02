@@ -1,21 +1,17 @@
-<?
+<?PHP
 // GPH Cleanup warnings
 global $use_odbc;  //set this to true if you're developing on a system with no access to mssql library.
-
-$use_odbc = 0;
-
+$use_odbc = 1;
 $color_4 = isset($fd_color_4) ? $fd_color_4 : '#888';
-echo "
-<meta http-equiv=\"X-UA-Compatible\" content=\"chrome=1\">
-<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
-
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <head>
-<link rel=\"icon\" type=\"image/png\" href=\"/favicon.png\">
-<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/styles.css\">
-<link rel=\"stylesheet\" type=\"text/css\" href=\"/css/print.css\" media=\"print\">
-<title>$dbdescription</title>
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="stylesheet" type="text/css" href="/css/styles.css" />
+<link rel="stylesheet" type="text/css" href="/css/print.css" media="print" />
+<script type="text/javascript" src="/javascript/dailylog.js"></script>
+<script type="text/javascript" src="/javascript/umc_ajax.js"></script>
+<title><?PHP echo $dbdescription; ?></title>
 </head>
 <body>
-
-";
-?>
