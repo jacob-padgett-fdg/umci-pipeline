@@ -7,8 +7,6 @@ $today=date('m-d-Y');
 $jobinfo_id=addslashes($jobinfo_id);
 $jobinfo=getone("select * from jobinfo where jobinfo_id = '$jobinfo_id'");
 
-
-
 ?>
 <div class="noprint" id="my_jobs_drop" onmouseout="hide_my_jobs();" onmouseover="show_my_jobs();"><b>Loading List..</b><br>please wait</div>
 <div class="noprint" id="recent_jobs_drop" onmouseout="hide_recent_jobs();" onmouseover="show_recent_jobs();"><b>Loading List..</b><br>please wait</div>

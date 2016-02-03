@@ -517,7 +517,7 @@ td.po-cost {
     padding-right: 10px;
     padding-top: 10px;
     padding-bottom: 5px;
-    font-family: arial;
+    font-family: helvetica;
 }
 #fd_my_home_nav_button a, #recent_jobs_button span, #my_jobs_button span {
     text-decoration:none;
@@ -542,7 +542,7 @@ td.po-cost {
     padding-right: 10px;
     padding-top: 10px;
     padding-bottom: 5px;
-    font-family: arial;
+    font-family: helvetica;
 }
 
 #fd_left_nav {

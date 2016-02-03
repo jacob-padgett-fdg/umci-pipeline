@@ -347,10 +347,22 @@ echo "
 </td></tr>
 
 <tr><td>
-	<b>Location</b>
+	<b>Weather</b>
 </td><td>
-	<input type=text size=40 name=location value=\"$dailylog_entry_info->location\">
+    $dailylog_info->weather
+	<input type=hidden size=40 name=weather value=\"$dailylog_info->weather\">
 </td></tr>
+
+<tr><td>
+	<b>Location</b>
+</td><td>";
+
+if (empty($dailylog_info->location))
+	print "<input type=text size=40 name=location value=\"\">";
+else
+    print $dailylog_info->location;
+        
+    echo "</td></tr>
 
 <tr>
     <td>
@@ -386,12 +398,6 @@ echo "
         echo "</select>
     </td>
 </tr>
-
-<tr><td>
-	<b>Weather</b>
-</td><td>
-	<input type=text size=40 name=weather value=\"$dailylog_entry_info->weather\">
-</td></tr>
 
 <tr><td>
 	<b>Work Progress</b>

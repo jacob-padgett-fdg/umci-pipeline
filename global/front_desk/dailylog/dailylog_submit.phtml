@@ -95,6 +95,13 @@ $sub_excavation_hours=addslashes($sub_excavation_hours);
 
 #######################################################################
 
+// first save the location to the daily log parent record
+if (!empty($location))
+{
+    $sql = "UPDATE `dailylog` SET `location` = '$location' WHERE `dailylog_id` = '$dailylog_id'";
+    $update_result = mysql_query( $sql );
+
+}
 $query = "";
 
 if ($log_status == "new")
