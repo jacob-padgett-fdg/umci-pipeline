@@ -363,6 +363,6 @@ else
     $res=mysql_query($query) or die("Application error! Failed to update record! Failed query:<hr>$query<hr>" . mysql_error());
 }
 
-forward("dailylog_edit&dailylog_id=$old_info->dailylog_id&log_status=edit&dailylog_entries_id=$dailylog_entries_id");
-
+forward("dailylog_view&dailylog_id=$old_info->dailylog_id");
+//http://localhost/global/front_desk/dailylog/index.php?mode=dailylog_view&dailylog_id=9301
 ?>

@@ -2,7 +2,7 @@ body {
     background-color: #FFF;
     color: #000;
     margin: 0;
-    font-family: Times;
+    font-family: helvetica;
 }
 img {
     border: 0;
@@ -569,6 +569,7 @@ td.po-cost {
     background-color: #1a8cff;
     padding: 3px;
     white-space: nowrap;
+    font-family: helvetica;
 }
 
 #sub_application_main_table {
@@ -596,9 +597,19 @@ td.po-cost {
     display: inline-block;
 }
 
+div label {
+    font-weight: bold;
+    width: 100px;
+    display: inline-block;
+}
+
 #dailylog_totals {
     margin-left: auto;
     margin-right: auto;
     margin-top: 20px;
     width: 50%
+}
+
+.margin-div {
+    margin: 5px 5px 5px 5px;
 }

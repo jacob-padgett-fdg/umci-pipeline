@@ -174,7 +174,9 @@ echo "<td class=\"$class\" style=\"background: $buttoncolor;\" onclick=\"$onclic
 <h1>Daily Log # <?php echo $dailylog_info->log_num;  ?></h1>
 <h2><?php echo $dailylog_info->project; ?></h2>
 <h3><?php echo $date; ?></h3>
-<div><a href="index.php?mode=dailylog_edit&dailylog_id=<?php echo $dailylog_id; ?>&log_status=new"">Create New Daily Log</a></div>
+<div><label>Location:</label><span><?php echo $dailylog_info->location; ?></span></div>
+<div><label>Weather:</label><span><?php echo $dailylog_info->weather; ?></span></div>
+<div class="margin-div"><a href="index.php?mode=dailylog_edit&dailylog_id=<?php echo $dailylog_id; ?>&log_status=new"">Add Log Entry</a></div>
 <div>
 <?php
     $sql = "SELECT
@@ -186,13 +188,12 @@ echo "<td class=\"$class\" style=\"background: $buttoncolor;\" onclick=\"$onclic
                     LEFT OUTER JOIN contacts ON contacts.contacts_id = dailylog_entries.creator_id
                 WHERE
                     dailylog_id = '$dailylog_id'";
+                    
     $result = mysql_query( $sql );
     while ($row = mysql_fetch_object( $result))
     {
         echo "<div class=\"dailylog_entry\">";
-        echo "<div>" . $row->first_name . " " . $row->last_name . ": " . $row->entry_type . " Foreman Log Entry</div>";
-        echo "<div><label>Location:</label><span>".$row->location."</span></div>";
-        echo "<div><label>Weather:</label><span>".$row->weather."</span></div>";
+        echo "<div>" . $row->first_name . " " . $row->last_name . ": " . $row->entry_type . " Foreman</div>";
         echo "<div><label>Work Progress:</label><span>".$row->work_progress."</span></div>";
         echo "<div><label>Materials Recieved:</label><span>".$row->materials_received."</span></div>";
         echo "<div><label>New Hires:</label><span>".$row->new_hires."</span></div>";
