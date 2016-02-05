@@ -613,3 +613,8 @@ div label {
 .margin-div {
     margin: 5px 5px 5px 5px;
 }
+
+#dailylog_edit_table {
+    margin-left: auto;
+    margin-right: auto;
+}

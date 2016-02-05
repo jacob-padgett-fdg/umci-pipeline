@@ -1,6 +1,11 @@
 <?
-require("header.phtml");
-fd_navs_header();
+global $fd_color_1, $fd_color_2, $global_user, $pagename_up, $devel, $fd_color_4, $my_home_color, $global_jobinfo_id;
+$GLOBALS['contact_view_js'] = 'Y';
+$jobinfo_id = $global_jobinfo_id;
+$today=date('m-d-Y');
+
+$jobinfo=getone("select * from jobinfo where jobinfo_id = '$jobinfo_id'");
+
 if ($dailylog_id=="") die("Invalid log selection error!");
 $dailylog_id=addslashes($dailylog_id);
 $dailylog_info=getone("select * from dailylog where dailylog_id = '$dailylog_id'");
@@ -37,8 +42,13 @@ else if ($foreman_info->sheet == 'Y')
 else if ($foreman_info->industrial == 'Y')
     $entry_type = 'Indust';
 
+require_once("header.phtml");
+require_once("frontdesk_pageheader.phtml");
+require_once("frontdesk_secondary_nav.phtml");
+require_once("frontdesk_tabs.phtml");
+	
 echo "
-<table border=1 cellspacing=0 cellpadding=2>
+<table border=1 cellspacing=0 cellpadding=2 id=\"dailylog_edit_table\">
 <form name=dailylog_edit method=post action=$pagename>
 <input type=hidden name=mode value=dailylog_submit>
 <input type=hidden name=log_status value=$log_status>
@@ -439,7 +449,8 @@ else
 </td></tr>
 
 <tr><td align=right colspan=2>
-	<input type=submit value=\"Save\">
+	<input type=\"button\" value=\"Cancel\" onClick=\"cancel_entry(".$dailylog_id.")\">
+	<input type=\"submit\" value=\"Save\">
 </td></tr>
 
 </form>

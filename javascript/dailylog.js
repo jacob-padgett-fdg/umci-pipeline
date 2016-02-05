@@ -400,6 +400,12 @@ function contact_view(contact)
 {
     open('/global/contacts/contactview.phtml?contacts_id=' + contact,'contact_info_win' + contact,'width=500,height=640,scrollbars=yes,resizable=yes');
 }
+
+function cancel_entry(log_id) {
+    if (confirm("Cancel Entry?")){
+        document.location.href='/global/front_desk/dailylog/dailylog_cancel.php?dailylog_id=' + log_id;
+    }
+}
     
 document.getElementById('my_jobs_drop').ajax_trigger='never';
 document.getElementById('recent_jobs_drop').ajax_trigger='never';

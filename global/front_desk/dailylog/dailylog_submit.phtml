@@ -4,8 +4,8 @@ $dailylog_id=addslashes($dailylog_id);
 $old_info=getoneb("select * from dailylog where dailylog_id = '$dailylog_id'");
 
 //if ($old_info->creator_id != $global_user->contacts_id) die("Error: You may only save changes to your own log!");
-
-$creator_info=getoneb("select * from contacts where contacts_id = '$old_info->creator_id'");
+//$sql = "select * from contacts where contacts_id = '$global_user_id'";
+$creator_info=getoneb("select * from contacts where contacts_id = '$global_user_id'");
 
 
 $project=addslashes($project);
@@ -186,7 +186,7 @@ if ($log_status == "new")
     VALUES
     ('$dailylog_id',
     '$entry_type',
-    '$old_info->creator_id',
+    '$global_user_id',
     '$work_date',
     '$location',
     '$weather',
