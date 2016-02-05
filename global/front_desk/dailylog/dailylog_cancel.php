@@ -4,9 +4,10 @@ require_once("global-auth.inc");
 require_once("querylib.inc");
 
 // check do any daily log entries already exist
-$sql = "SELECT * FROM dialylog_entries WHERE dailylog_id = '".$dailylog_id."'";
+$sql = "SELECT COUNT(*) AS theCount FROM dialylog_entries WHERE dailylog_id = '".$dailylog_id."'";
 $result = mysql_query( $sql );
-$entry_count = mysql_num_rows();
+$row = mysql_fetch_object( $result );
+$entry_count = $row->theCount;
 
 // if not, delete the dailylog record
 if ($entry_count == 0)
