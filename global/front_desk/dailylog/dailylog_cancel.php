@@ -1,4 +1,6 @@
 <?php
+require_once("settings.cfg");
+require_once("global-auth.inc");
 require_once("querylib.inc");
 
 // check do any daily log entries already exist
