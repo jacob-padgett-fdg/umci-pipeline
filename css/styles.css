@@ -63,12 +63,9 @@ tbody.floatheader {
     overflow-x: visible;
     height: 100%;
 }
-td.normnav:hover { background: #888; }
+
 div.hover { color: green; }
-td.normnav {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
+
 .normnav {
     border-collapse: collapse;
     border: 1px solid black;
@@ -547,29 +544,39 @@ td.po-cost {
 
 #fd_left_nav {
     background-color: #004466;
+    padding-top: 10px;
 }
 
-#fd_left_nav table {
-    padding-top: 10px;
-    padding-left: 5px;
-    padding-right: 5px;
+#fd_left_nav #fd_tabs_div {
     padding-bottom: 0px;
     margin-top: 5px;
-    width: 90%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 0px;
-    position: relative;
-    top: 2px;
 }
 
-#fd_left_nav table td.normnav {
+#fd_tabs_div div.normnav {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    background-color: #1a8cff;
+    background-color: #e6e6e6;
     padding: 3px;
     white-space: nowrap;
-    font-family: helvetica;
+}
+
+#fd_tabs_div div.normnav:hover {
+    font-weight: bold;
+    background-color: #CCCCCC;
+}
+
+#fd_tabs_div div.selectnav {
+    background-color: #FFFFFF;
+    border-bottom-style: solid;
+    border-bottom-color: #FFFFFF;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 3px;
+    white-space: nowrap;
+    cursor: pointer;
 }
 
 #sub_application_main_table {
@@ -617,4 +624,12 @@ div label {
 #dailylog_edit_table {
     margin-left: auto;
     margin-right: auto;
+    margin-top: 10px;
+}
+
+#fd_tabs_div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
