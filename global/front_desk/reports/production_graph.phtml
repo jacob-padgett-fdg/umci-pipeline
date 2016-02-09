@@ -18,7 +18,6 @@ $report_name="baldwin";
           ['Craft', 'Hours'],
 			<?php
 			$ct_array=cost_type_array();
-			
 			$job=is_valid_viewpoint_job($global_jobinfo->contract_num);
 			
 			$tbquery="
@@ -94,7 +93,7 @@ $report_name="baldwin";
 			}
 			else
 			{
-			    $tbres=mssql_query($tbquery);
+				$tbres=mssql_query($tbquery);
 				$rowCount = 0;
 				while ($tbrow=mssql_fetch_object($tbres))
 				{
