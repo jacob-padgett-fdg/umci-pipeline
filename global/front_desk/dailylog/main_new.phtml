@@ -31,7 +31,19 @@ require_once("frontdesk_tabs.phtml");
 				<?php
 					echo $today;
 					$query_search_add=query_search_add_text();
-					$query="select * from dailylog where jobinfo_id = '$global_jobinfo_id' and section = '$current_dailylog_section' $query_search_add order by work_date desc, dailylog_id desc";
+					$query="select
+										*
+									from
+										dailylog 
+									where
+										jobinfo_id = '$global_jobinfo_id' and
+										section = '$current_dailylog_section'
+										$query_search_add
+									order by
+										work_date desc,
+										dailylog_id desc
+										";
+										
 					$res=@mysql_query($query);
 
 					include("fd_log_paging.phtml");

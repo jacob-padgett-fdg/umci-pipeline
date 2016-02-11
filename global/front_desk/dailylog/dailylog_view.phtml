@@ -37,7 +37,11 @@ require_once("frontdesk_tabs.phtml");
 <h3><?php echo $date; ?></h3>
 <div><label>Location:</label><span><?php echo $dailylog_info->location; ?></span></div>
 <div><label>Weather:</label><span><?php echo $dailylog_info->weather; ?></span></div>
-<div class="margin-div"><a href="index.php?mode=dailylog_edit&dailylog_id=<?php echo $dailylog_id; ?>&log_status=new"">Add Log Entry</a></div>
+<div class="margin-div">
+    <a href="index.php?mode=dailylog_edit&dailylog_id=<?php echo $dailylog_id; ?>&log_status=new"">Add Log Entry</a>
+    |
+    <a href="index.php">All Log Entries</a>
+</div>
 <div>
 <?php
     $sql = "SELECT
@@ -59,7 +63,7 @@ require_once("frontdesk_tabs.phtml");
         echo "<div><label>Materials Recieved:</label><span>".$row->materials_received."</span></div>";
         echo "<div><label>New Hires:</label><span>".$row->new_hires."</span></div>";
         echo "<div><label>New Hire Safety Training:</label><span>".$row->new_hire_safety_training."</span></div>";
-        echo "<div><label>Hinderances:</label><span>".$row->hinderances."</span></div>";
+        echo "<div><label>Hinderances:</label><span>".$row->work_hinderances."</span></div>";
         echo "<div><label>Accidents, near misses or safety concerns:</label><span>".$row->accidents."</span></div>";
         echo "<div><a href=\"index.php?mode=dailylog_edit&dailylog_id=".$dailylog_id."&log_status=edit&dailylog_entries_id=".$row->dailylog_entries_id."\">EDIT</a></div>";
         echo "</div>";

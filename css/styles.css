@@ -641,3 +641,7 @@ div label {
     justify-content: center;
     align-items: center;
 }
+
+#dailylog_save_button, #dailylog_cancel_button {
+    background-color: #ffcc44
+}

@@ -1,5 +1,3 @@
-document.getElementById('fd_top_nav').ajax_trigger='never';
-document.getElementById('fd_left_nav').ajax_trigger='never';
 document.fd_menus_positioned_already=0;
 
 function fix_fd_height()
@@ -407,5 +405,3 @@ function cancel_entry(log_id) {
     }
 }
     
-document.getElementById('my_jobs_drop').ajax_trigger='never';
-document.getElementById('recent_jobs_drop').ajax_trigger='never';

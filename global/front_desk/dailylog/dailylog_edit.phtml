@@ -351,9 +351,10 @@ echo "
     ";
     $dateArray = explode("-",$dailylog_info->work_date);
     $date = $dateArray[1] . "/" . $dateArray[2] . "/" . $dateArray[0];
-    echo $date;
-    echo"
-    <input type=\"hidden\" name=\"work_date\" id=\"work_date\" value=\"".$date."\" />
+    //echo $date;
+	datebox2($date,"work_date");
+    echo "
+    
 </td></tr>
 
 <tr><td>
@@ -449,8 +450,8 @@ else
 </td></tr>
 
 <tr><td align=right colspan=2>
-	<input type=\"button\" value=\"Cancel\" onClick=\"cancel_entry(".$dailylog_id.")\">
-	<input type=\"submit\" value=\"Save\">
+	<input type=\"button\" value=\"Cancel\" id=\"dailylog_cancel_button\" onClick=\"cancel_entry(".$dailylog_id.")\">
+	<input type=\"submit\" value=\"Save\" id=\"dailylog_save_button\">
 </td></tr>
 
 </form>
