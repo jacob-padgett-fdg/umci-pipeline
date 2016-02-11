@@ -32,7 +32,8 @@ require_once("frontdesk_tabs.phtml");
 					echo $today;
 					$query_search_add=query_search_add_text();
 					$query="select
-										*
+										*,
+										(SELECT COUNT(*) FROM dailylog_entries WHERE work_hinderances <> '' AND dailylog_entries.dailylog_id = dailylog.dailylog_id) AS hinderance_count
 									from
 										dailylog 
 									where
@@ -80,7 +81,7 @@ while ($row=@mysql_fetch_object($res)) {
 	$file_batch=batch_this_document($temp_doc_id);
 
 	$weekday=date("D",strtotime($row->work_date));
-	if ($row->work_hinderances=="") $hind="&nbsp;";
+	if ($row->work_hinderances=="" && $row->hinderance_count < 1) $hind="&nbsp;";
 	else $hind='*';
 	
 	$creator_info=getoneb("select * from contacts where contacts_id = '$row->creator_id'");
