@@ -23,7 +23,9 @@ else
 
 $sql = "select * from front_desk_job_foreman where foreman_id = '$auth_backend_database_global_user_id' and jobinfo_id = '$dailylog_info->jobinfo_id' ";
 $result = mysql_query( $sql );
+$foreman_type_array = array();
 $forman_info=mysql_fetch_object( $sql );
+
 
 $doc_id=fd_get_doc_id($dailylog_info->dailylog_id);
 
@@ -379,35 +381,57 @@ else
     <td>
         <b>Entry Type</b>
     </td>
-    <td>
-        <select name=\"entry_type\" id=\"entry_type\">";
+    <td>";
+	
+	$fd_manager = fd_manager($jobinfo_id, $auth_backend_database_global_user_id);
+	
+	echo "<select name=\"entry_type\" id=\"entry_type\">";
+	
+	if ($fd_manager || $foreman_info->general == 'Y')
+	{
         if ($entry_type != 'Gen')
             echo "<option value=\"Gen\">Gen</option>";
         else
             echo "<option value=\"Gen\" SELECTED>Gen</option>";
-        
+	}
+	
+	
+	if ($fd_manager || $foreman_info->plumb == 'Y')
+	{
         if ($entry_type != 'Plumb')    
             echo "<option value=\"Plumb\">Plumb</option>";
         else
             echo "<option value=\"Plumb\" SELECTED>Plumb</option>";
-        
+	}
+	
+	if ($fd_manager || $foreman_info->pipe == 'Y')
+	{
         if ($entry_type != 'Pipe')    
             echo "<option value=\"Pipe\">Pipe</option>";
         else
             echo "<option value=\"Pipe\" SELECTED>Pipe</option>";
-        
+	}
+	
+	if ($fd_manager || $foreman_info->sheet == 'Y')
+	{
         if ($entry_type != 'Sheet')    
             echo "<option value=\"Sheet\">Sheet</option>";
         else
             echo "<option value=\"Sheet\" SELECTED>Sheet</option>";    
-         
+	}
+	
+	if ($fd_manager || $foreman_info->industrial == 'Y')
+	{
          if ($entry_type != 'Indust')    
             echo "<option value=\"Indust\">Indust</option>";
         else
             echo "<option value=\"Indust\" SELECTED>Indust</option>";   
-            
-        echo "</select>
-    </td>
+	}       
+        
+	echo "</select>";
+		
+		
+    echo "</td>
 </tr>
 
 <tr><td>
