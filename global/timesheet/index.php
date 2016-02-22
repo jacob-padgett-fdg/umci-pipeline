@@ -4,7 +4,7 @@ session_start();
 global $use_odbc;
 global $global_user;
 
-$use_odbc = 0;
+$use_odbc = 1;
 
 //ini_set("display_errors","On");
 
@@ -29,6 +29,8 @@ if ($current_user_id=="") {
 	session_register('current_user_id');
 	$current_user_id=$global_user->contacts_id;
 	}
+	
+
 $current_user=getoneb("select * from contacts where contacts_id = '$current_user_id'");
 
 if (($current_user->employee_num <=1)||(($current_user->employee_group!='3')&&($current_user->employee_group!='1'))) {
@@ -62,6 +64,8 @@ if (($current_employee_group!='1') && ($current_employee_group!='3')) {
 	$current_employee_group="3";
 	}
 
+require_once('header.phtml');
+	
 if (isset($mode)) {
 	if (is_readable("$mode.phtml")) { 
 		include("$mode.phtml");  } else { include ("badmode.phtml"); }

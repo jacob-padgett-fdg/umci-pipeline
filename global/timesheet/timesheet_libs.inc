@@ -226,11 +226,11 @@ echo "<tt>";
 while($row=@mysql_fetch_object($res)) {
 	$row->job_num=ereg_replace("- *$","",$row->job_num);
 	$row->job_num=ereg_replace(" ","",$row->job_num);
-	echo "<a title=\"$row->job_desc\" href=javascript:document.add_time.job_num.value=\"$row->job_num\";document.add_time.phase.focus();><font color=black>$row->job_num</font></a><br>";
+	echo "<a title=\"$row->job_desc\" href=javascript:document.add_time.job_num.value=\"$row->job_num\";populatePhaseList('".$row->job_num."');><font color=black>$row->job_num</font></a><br>";
 	}
 echo "<hr>";
 if (!($expenses)) echo "
-<a title=DD708 href=javascript:document.add_time.job_num.value='Vacation';document.add_time.phase.value='';document.add_time.hours.focus();><font color=black>Vacation</font></a><br>
+<a title=DD708 href=javascript:document.add_time.job_num.value='Vacation';document.add_time.phase.value='';document.add_time.hours.focus();><font color=black>Vacation Please</font></a><br>
 <a title=DD709 href=javascript:document.add_time.job_num.value='Sick';document.add_time.phase.value='';document.add_time.hours.focus();><font color=black>Sick</font></a><br>
 <a title=DD710 href=javascript:document.add_time.job_num.value='Holiday';document.add_time.phase.value='';document.add_time.hours.focus();><font color=black>Holiday</font></a><br>";
 
@@ -833,13 +833,27 @@ function dump_underlings($employee_num) {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 function i_have_underlings($employee_num) {
+	global $use_odbc;
 	$pm_info=getoneb("select * from contacts where employee_num = '$employee_num'");
 	$query="select * from timesheet_pm_job_audit_list where pm_id = $pm_info->contacts_id";
 	if (getoneb($query)) return TRUE;
 	$query="select * from HRRM with (NOLOCK) where HRCo = 1 and udsupervisor = $employee_num and ActiveYN = 'Y' order by LastName, FirstName";
-	$res=@mssql_query($query);
-	if ((mssql_num_rows($res))>0) return TRUE;
-	else return FALSE;
+	if (!$use_odbc)
+	{
+		$res=@mssql_query($query);
+		if ((mssql_num_rows($res))>0)
+			return TRUE;
+		else
+			return FALSE;
+	}
+	else
+	{
+		$res=odbc_exec($conn, $query);
+		if ((odbc_num_rows($res))>0)
+			return TRUE;
+		else
+			return FALSE;
+	}
 }
 
 function find_supervisor($employee_num) {
