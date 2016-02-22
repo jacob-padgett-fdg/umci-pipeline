@@ -571,7 +571,7 @@ td.normnav {
     white-space: nowrap;
 }
 
-#fd_tabs_div div.normnav:hover {
+#fd_tabs_div div.normnav:hover, td.normnav:hover {
     font-weight: bold;
     background-color: #CCCCCC;
 }
