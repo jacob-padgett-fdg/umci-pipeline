@@ -30,7 +30,9 @@ $sql = "Select
             where
                 a.JCCo=1 and
                 a.CostType=1 and
-                a.Job='".$jobNumber."'
+                a.Job='".$jobNumber."' and
+                a.Phase NOT LIKE '%YYYYY%' and
+                a.Phase NOT LIKE '%ZZZZZ%'
             Order by
                 a.Phase
             ";
