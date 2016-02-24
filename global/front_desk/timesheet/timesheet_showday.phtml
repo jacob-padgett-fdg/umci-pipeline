@@ -1,5 +1,6 @@
 <?
-require("timesheet_header.phtml");
+require_once("header.phtml");
+echo "<div class=\"timesheet_content\">";
 if ($showday=="") $showday=date("m-d-Y");
 $showday=escapeshellcmd($showday);
 
@@ -25,5 +26,5 @@ if ($noedit) exit;
 
 $workday=$showday;
 include("timesheet_edit_add_time.phtml");
-
+echo "</div>";
 ?>
