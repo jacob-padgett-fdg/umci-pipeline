@@ -13,6 +13,8 @@ if ($showday_info->week_end!=invali_date($timesheet_info->week_ending)) {
 	include("timesheet_summary.phtml");
 	exit;
 	}
+	
+echo "<div class=\"timesheet_content\">";	
 require("timesheet_footer.phtml");
 
 $holiday=getoneb("select * from timesheet_holidays where holiday_date = '" . vali_date($showday) . "'");
@@ -26,4 +28,5 @@ if ($noedit) exit;
 $workday=$showday;
 include("timesheet_edit_add_time.phtml");
 
+echo "</div>";
 ?>

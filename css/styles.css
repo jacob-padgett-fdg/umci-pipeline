@@ -545,6 +545,7 @@ td.po-cost {
 #fd_left_nav {
     background-color: #004466;
     padding-top: 10px;
+    width: 140px;
 }
 
 #fd_left_nav #fd_tabs_div {
@@ -554,6 +555,7 @@ td.po-cost {
     margin-right: auto;
     margin-bottom: 0px;
 }
+
 
 td.normnav {
     border-top-left-radius: 5px;
@@ -648,4 +650,8 @@ td.normnav {
 
 #production_graph_filters button {
     width: 400px;
+}
+
+.timesheet_content {
+    margin: 5px 5px 5px 5px;
 }

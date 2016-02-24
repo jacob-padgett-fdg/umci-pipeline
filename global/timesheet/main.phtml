@@ -1,9 +1,10 @@
 <?
+
 echo "
-<body bgcolor=white>
+<div class=\"timesheet_content\">
 <a href=$pagename_up><font color=blue>EXIT</font></a>&nbsp;
 <a href=/global/front_desk/?mode=my_home><font color=blue>Front&nbsp;Desk</font></a>&nbsp;
-<a href=$pagename?kill_session_info=1><font color=blue>LOGOUT</font></a><p>
+<a href=$pagename?kill_session_info=1><font color=blue>LOGOUT</font></a></div><p>
 ";
 
 if ($admin_check) {
@@ -254,13 +255,12 @@ if ($global_user->timesheet_group_one_foreman=='Y') {
 
 
 
-
 if ($current_user->employee_num>1) $timesheet_title_add="";
 else $timesheet_title_add=" <font color=red>(N/A)</font>";
 	echo "
 	<table width=100% border=1 cellpadding=4 cellspacing=0>
 	<tr><td bgcolor=#dddddd width=100% align=center><h2>Timesheets for $current_user->first_name $current_user->last_name $timesheet_title_add</h2></center></td></tr></table>
-	
+	<div class=\"timesheet_content\">
 	<p>
 	<a href=$pagename?mode=preferences><font color=blue>Preferences</font></a><br>";
 	
@@ -350,4 +350,6 @@ if ($current_user->employee_num>1) {
 		echo "<b>Show:</b>&nbsp;<a href=$pagename?mode=main&timesheet_show_year_new=$old_year->year><font color=blue>$old_year->year</font></a><br>";
 		}
 	}
+	
+	echo "</div>";
 ?>
