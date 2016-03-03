@@ -40,7 +40,7 @@ $p = count($parts);
  * Create SQL
  */
 
-$sql = "select top 10 * from JCJM with (NOLOCK) where JobStatus = 1 and JCCo = 1 ";
+$sql = "select top 100 * from JCJM with (NOLOCK) where JobStatus = 1 and JCCo = 1 ";
 
 if ($p == 0)
 {
