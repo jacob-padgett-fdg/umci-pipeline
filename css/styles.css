@@ -673,12 +673,14 @@ td.normnav {
   }
   
   body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a {
-    height: 21px;
+    height: 20px;
     position: relative;
     top: -3px;
   }
   
   body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > input {
-    height: 11px;
+    height: 10px;
     background: #ffffff;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
   }
