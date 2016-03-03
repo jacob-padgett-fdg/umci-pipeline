@@ -68,13 +68,12 @@ echo"
 <a href=javascript:job_help();><font color=black>
 Job Number:</font></a><br>
 <input type=\"text\" size=\"13\" name=\"job_num\" id=\"job_num\" value=\"$timesheet_time->job_num\" tabindex=\"2\"><br>
+<input type=\"hidden\" name=\"job_num_hidden\" id=\"job_num_hidden\" value=\"$timesheet_time->job_num\" >
+<input type=\"hidden\" name=\"job_description_hidden\" id=\"job_description_hidden\" value=\"$timesheet_time->description\" >
 ";recent_jobs($current_user->contacts_id);echo"
 </td><td valign=top>
 <a href=javascript:phase_help();><font color=black>Phase:</font></a><br>
-<input type=text size=13 id=phase name=phase value=\"$timesheet_time->phase\" tabindex=3><br>
-<select id=\"timesheet_phase_lookup\" name=\"timesheet_phase_lookup\">
-	<option value=\"\">-- Phase Lookup --</option>
-</select>
+<select id=\"phase\" name=\"phase\" tabindex=\"3\"></select><br>
 <br>
 ";recent_phases($current_user->contacts_id);echo"
 </td><td valign=top>
