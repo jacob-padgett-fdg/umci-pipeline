@@ -680,4 +680,5 @@ td.normnav {
   
   body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > input {
     height: 11px;
+    background: #ffffff;
   }
