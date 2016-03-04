@@ -675,7 +675,7 @@ td.normnav {
   body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > a {
     height: 20px;
     position: relative;
-    top: -5px;
+    top: -2px;
     background: #FFFFFF;
     border-color: #bfbfbf;
   }
@@ -709,14 +709,7 @@ td.normnav {
 
   }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) { 
- body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > a {
-    position: relative;
-    top: -3px;
-    background: #FFFFFF;
-    border-color: #bfbfbf;
-  } 
-}
+
 
 /*This will work for firefox*/
 @-moz-document url-prefix() {

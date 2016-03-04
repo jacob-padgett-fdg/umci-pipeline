@@ -6,11 +6,17 @@ $color_4 = isset($fd_color_4) ? $fd_color_4 : '#888'; // GPH Cleanup warnings
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/scroller.dataTables.css">
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <!--[if IE]>
+	<link rel="stylesheet" type="text/css" href="/css/ie-only.css" />
+    <![endif]-->
+    
     <link rel="icon" type="image/png" href="/favicon.png">
     <script src='/javascript/jquery-1.11.3.min.js'></script>
     <script src='/javascript/jquery-ui.min.js'></script>
     <script src="/javascript/jquery.dataTables.min.js"></script>
+    <script src="/javascript/dataTables.scroller.js"></script>
     <title><?php echo $dbdescription; ?></title>
 </head>
 <body>
