@@ -53,7 +53,7 @@ echo"
 	<input type=hidden name=employee_num value=\"$current_user->employee_num\">
 
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shift:&nbsp;
-	<select name=shift tabindex=1>
+	<select name=\"shift\" id=\"shift\" tabindex=\"1\">
 	$timesheet_time->shift_last
 	";if ($timesheet_time_id!="") echo "<option>$timesheet_time->shift</option>";echo"
 	<option>1</option>
@@ -78,7 +78,7 @@ Job Number:</font></a><br>
 ";recent_phases($current_user->contacts_id);echo"
 </td><td valign=top>
 Hours:<br>
-<input type=text size=5 name=hours value=\"$timesheet_time->hours\" tabindex=4><br>
+<input type=text size=5 name=hours value=\"$timesheet_time->hours\" tabindex=\"4\"><br>
 ST <input type=radio name=earnings_code value=1 $ec_checked_st><br>
 OT <input type=radio name=earnings_code value=2 $ec_checked_ot><br>
 DT <input type=radio name=earnings_code value=3 $ec_checked_dt><br>
