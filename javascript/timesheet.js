@@ -17,6 +17,7 @@ function populatePhaseList(jobNumber) {
 
 $(function() {
     $( "#phase" ).combobox();
+    $( "#shift" ).combobox();
     
     $( "#job_num" ).change(function() {
             populatePhaseList($(this).val());
@@ -35,4 +36,39 @@ $(function() {
         populatePhaseList( ui.item.id );
       }
     });
+     
+    $("input").keydown(function(event) {
+        if (event.keyCode == 9) { 
+            event.preventDefault();
+            
+            if ($(this).parent().prev().attr("name") == "phase") {
+                $("[name=hours]").focus();
+            }
+            else if ($(this).parent().prev().attr("name") == "shift") {
+                $("#job_num").focus()
+            }
+            else {
+                var currentTabIndex = parseInt($(this).attr("tabindex"));
+                var nextTabIndex = currentTabIndex + 1;
+                
+                if (nextTabIndex == 1) {
+                    $('#shift').next().find('input').focus();
+                }
+                else if (nextTabIndex == 3) {
+                    $('#phase').next().find('input').focus()
+                }
+                else {
+                    var tabIndexString = "[tabindex="+nextTabIndex+"]"; 
+                    var count = $(tabIndexString).length;
+                    if (count == 0) {
+                        $("[tabindex=1]").focus();
+                    }
+                    else {
+                        $(tabIndexString).focus();
+                    }
+                }
+            }
+        } 
+    });
+     
   });

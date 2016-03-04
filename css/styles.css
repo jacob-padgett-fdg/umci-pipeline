@@ -672,21 +672,25 @@ td.normnav {
     padding: 5px 10px;
   }
   
-  body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a {
+  body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > a {
     height: 20px;
     position: relative;
-    top: -3px;
+    top: -5px;
     background: #FFFFFF;
     border-color: #bfbfbf;
   }
   
   
-  body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > input {
+  body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > input, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > input {
     height: 10px;
     background: #ffffff;
     border-bottom-left-radius: 0px;
     border-top-left-radius: 0px;
     border-color: #bfbfbf;
+  }
+  
+  body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > input {
+    width: 50px;
   }
   
   .ui-autocomplete {
@@ -706,10 +710,19 @@ td.normnav {
   }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
- body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a {
+ body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > a {
     position: relative;
-    top: -2px;
+    top: -3px;
     background: #FFFFFF;
     border-color: #bfbfbf;
   } 
 }
+
+/*This will work for firefox*/
+@-moz-document url-prefix() {
+    body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > a {
+    position: relative;
+    top: -2px;
+  }
+}
+
