@@ -230,7 +230,7 @@ while($row=@mysql_fetch_object($res)) {
 	}
 echo "<hr>";
 if (!($expenses)) echo "
-<a title=DD708 href=javascript:document.add_time.job_num.value='Vacation';document.add_time.phase.value='';document.add_time.hours.focus();><font color=black>Vacation Please</font></a><br>
+<a title=DD708 href=javascript:document.add_time.job_num.value='Vacation';document.add_time.phase.value='';document.add_time.hours.focus();><font color=black>Vacation</font></a><br>
 <a title=DD709 href=javascript:document.add_time.job_num.value='Sick';document.add_time.phase.value='';document.add_time.hours.focus();><font color=black>Sick</font></a><br>
 <a title=DD710 href=javascript:document.add_time.job_num.value='Holiday';document.add_time.phase.value='';document.add_time.hours.focus();><font color=black>Holiday</font></a><br>";
 
