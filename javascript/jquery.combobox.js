@@ -98,7 +98,9 @@
           valueLowerCase = value.toLowerCase(),
           valid = false;
         this.element.children( "option" ).each(function() {
-          if ( $( this ).text().toLowerCase() === valueLowerCase || $( this ).value().toLowerCase().replace("-  -","") === valueLowerCase) {
+          var dashPosition = $( this ).val().indexOf("-");
+          var optionValue = $( this ).val().substring(0, dashPosition);
+          if ( $( this ).text().toLowerCase() === valueLowerCase || optionValue === valueLowerCase) {
             this.selected = valid = true;
             return false;
           }

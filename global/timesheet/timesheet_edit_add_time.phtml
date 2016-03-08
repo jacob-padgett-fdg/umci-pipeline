@@ -36,7 +36,7 @@ if ($timesheet_time_id=="") {
 	}
 	
 echo"
-<form name=add_time method=post action=$pagename>
+<form name=add_time id=add_time method=post action=$pagename>
 <input type=hidden name=mode value=timesheet_edit_add_time_verify>
 <input type=hidden name=timesheet_time_id value=\"$timesheet_time_id\">
 <input type=hidden name=return_to value=\"$return_to\">
@@ -61,7 +61,7 @@ echo"
 	<option>3</option>
 	</select>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<input type=submit value=\"$submit_text\" tabindex=5>
+	<input type=button id=\"submit_button\" onclick=\"validateForm();\" value=\"$submit_text\" tabindex=5>
 </td></tr>
 
 <tr><td valign=top>
@@ -94,11 +94,22 @@ DT <input type=radio name=earnings_code value=3 $ec_checked_dt><br>
 	$tmp=date_info($timesheet_time->workday);
 	if (($tmp->day_of_week_num==1)&&($timesheet_time_id=="")) echo "Add entry for entire week: <input type=checkbox name=full_week>";echo "
 </td><td align=right>
-	<input type=submit value=\"$submit_text\">
+	<input type=button id=\"submit_button\" value=\"$submit_text\" onclick=\"validateForm();\" >
 </td></tr>
 
 </form>
 </table>
+
+<div id=\"error-message\" title=\"Job Phase Mismatch\">
+  <p>
+    <span class=\"ui-icon ui-icon-circle-check\" style=\"float:left; margin:0 7px 50px 0;\"></span>
+	Problem with phase code and job number entered.
+  </p>
+  <p>
+    Please check values supplied and try again.
+  </p>
+</div>
+
 
 <script>
 

@@ -10,6 +10,23 @@ function putPhaseInField(phase) {
     $("#phase").next().find("input").val(phase);
 }
 
+function validatePhase(jobNumber, phase) {
+    //code
+    $.ajax({
+        url: "phaseValidate.php?jobNumber=" + jobNumber + "&phase=" + phase,
+        success: function(result) {
+                if (result != 1) {
+                    //code
+                    $( "#error-message" ).dialog( "open" );
+                }
+                else
+                {
+                    $("#add_time").submit();
+                }
+            }      
+        });
+}
+
 function populatePhaseList(jobNumber) {
     $("#phase").html("");
     $.ajax({
@@ -27,10 +44,34 @@ function populatePhaseList(jobNumber) {
         });
 }
 
+function validateForm() {
+    //code
+     
+    var phase = $("#phase").next().find("input").val();
+    
+    var dashPosition = phase.indexOf("-");
+    if (dashPosition > -1) {
+        //code
+        phase = phase.substring(0, dashPosition);
+    }
+    validatePhase($( "#job_num" ).val(), phase);
+    
+}
+
 $(function() {
     $( "#phase" ).combobox();
     $( "#shift" ).combobox();
     $( "#job_num" ).tooltip();
+    
+    $( "#error-message" ).dialog({
+      autoOpen: false,
+      modal: true,
+      buttons: {
+        Ok: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
     
     $( "#job_num" ).change(function() {
        
