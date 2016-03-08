@@ -7,6 +7,11 @@ function hideToolTip() {
 
 function putPhaseInField(phase) {
     //code
+    $('#phase').append($('<option/>', { 
+            value: phase,
+            text : phase 
+        }));
+    $('#phase').val( phase );
     $("#phase").next().find("input").val(phase);
 }
 
@@ -21,6 +26,7 @@ function validatePhase(jobNumber, phase) {
                 }
                 else
                 {
+                    $("#phase_value").val( phase );
                     $("#add_time").submit();
                 }
             }      

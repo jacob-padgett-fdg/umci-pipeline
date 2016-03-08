@@ -33,6 +33,8 @@ if ($job_num=="Training") {
 	$phase="19724";
 	}
 
+//die($phase);
+	
 $job_info=is_valid_viewpoint_job($job_num);
 $phase_info=is_valid_viewpoint_labor_phase($phase,$job_info->job);
 
@@ -134,7 +136,11 @@ if ($workday_info->week_end != invali_date($timesheet_info->week_ending)) {
 	}
 
 if ($TIMESHEET_ERROR==1) {
-	include("timesheet_edit_add_time.phtml");
+	$mode = "timesheet_edit";
+	$timesheet_mode_new = "timesheet_showday";
+	$showday = $workday;
+	
+	include("index.php");
 	exit;
 	}
 

@@ -9,6 +9,8 @@ $use_odbc = 0;
 require_once("settings.cfg");
 require_once("querylib.inc");
 require_once("global-auth.inc");
+require_once("viewpoint_libs.inc");
+require_once("timesheet_libs.inc");
 
 $jobNumber = $_REQUEST["jobNumber"];
 
@@ -17,10 +19,49 @@ $lastCharacter = substr($jobNumber,strlen($jobNumber) - 1);
 
 if ($lastCharacter != "-")
     $jobNumber .= "-";
-
+    
 if ($global_contacts_id='353'||$global_contacts_id=='4517'||$global_contacts_id='2'||$global_contacts_id='1') include("viewpoint_connect_ro_pr.phtml");
 else include("viewpoint_connect_ro.phtml");
 
+$resultArray = array();
+
+$phases_locked=ms_getoneb("select * from JCJM with (NOLOCK) where JCCo = 1 and Job = '$jobNumber' and LockPhases = 'Y'");
+
+if ($phases_locked)
+{
+	$query="select Phase,Description from JCJP with (NOLOCK) where Job = '$jobNumber' and JCCo = 1 and ActiveYN = 'Y'";
+}
+else
+{
+	$query="select * from JCPC with (NOLOCK),JCPM with (NOLOCK) where JCPC.JCCo = JCPM.JCCo and JCPC.JCCo = 1 and JCPC.Phase = JCPM.Phase and JCPC.CostType = 1 and JCPC.PhaseGroup = 1 and JCPM.PhaseGroup = 1";
+}
+
+if (!$use_odbc)
+{
+	$res=@mssql_query($query);	
+	while($row=@mssql_fetch_array($res))
+	{
+        if (is_valid_viewpoint_labor_phase($row['Phase'],$jobNumber))
+            array_push($resultArray, $row);
+	}
+}
+else
+{
+    $res=odbc_exec($conn, $query);
+    while($row=odbc_fetch_array($res))
+    {
+        if (is_valid_viewpoint_labor_phase($row['Phase'],$jobNumber))
+            array_push($resultArray, $row);
+    }
+}
+
+echo json_encode( $resultArray );
+
+
+//$resultArray = get_viewpoint_job_phases_array($jobNumber);
+
+
+/*
 $phases_locked_sql = "select * from JCJM with (NOLOCK) where JCCo = 1 and Job = '$jobNumber' and LockPhases = 'Y'";
 
 //$phases_locked=ms_getoneb("select * from JCJM with (NOLOCK) where JCCo = 1 and Job = '$jobNumber' and LockPhases = 'Y'");
@@ -34,7 +75,7 @@ else
 {
     $sql="select * from JCPC with (NOLOCK),JCPM with (NOLOCK) where JCPC.JCCo = JCPM.JCCo and JCPC.JCCo = 1 and JCPC.Phase = JCPM.Phase and JCPC.CostType = 1 and JCPC.PhaseGroup = 1 and JCPM.PhaseGroup = 1";
 }*/
-
+/*
 $resultArray = array();
 
 if ($use_odbc)
@@ -65,6 +106,6 @@ else
         array_push($resultArray, $row);
     }
 }
+*/
 
-echo json_encode( $resultArray );
 ?>

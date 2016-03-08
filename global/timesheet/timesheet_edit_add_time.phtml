@@ -73,6 +73,7 @@ Job Number:</font></a><br>
 ";recent_jobs($current_user->contacts_id);echo"
 </td><td valign=top>
 <a href=javascript:phase_help();><font color=black>Phase:</font></a><br>
+<input type=\"hidden\" name=\"phase_value\" id=\"phase_value\">
 <select id=\"phase\" name=\"phase\" tabindex=\"3\"></select><br>
 <br>
 ";recent_phases($current_user->contacts_id);echo"
