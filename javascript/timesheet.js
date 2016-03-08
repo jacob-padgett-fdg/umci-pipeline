@@ -1,3 +1,10 @@
+function hideToolTip() {
+    //code
+    $( "#job_num" ).tooltip().mouseout();
+    $( "#job_num" ).attr( "title", "" );
+    $( "#job_num" ).tooltip();
+}
+
 function populatePhaseList(jobNumber) {
     $("#phase").html("");
     $.ajax({
@@ -18,10 +25,36 @@ function populatePhaseList(jobNumber) {
 $(function() {
     $( "#phase" ).combobox();
     $( "#shift" ).combobox();
+    $( "#job_num" ).tooltip();
     
     $( "#job_num" ).change(function() {
+       
+        $.ajax({
+                url: "jobNumberValidate.php?jobNumber=" + $(this).val(),
+                success: function(result) {
+                     $( "#job_num" ).tooltip();
+                    // remove all options
+                    result = JSON.parse(result);
+                    if (result.job == false) {
+                        //code
+                        $( "#job_num" ).attr( "title", $("#job_num").val() + " job number does not exist." );
+                        $( "#job_num" ).tooltip().mouseover();
+                        $( "#job_num" ).val("");
+                        $( "#job_num" ).focus();
+                        window.setTimeout(hideToolTip,2000);
+                    }
+                    else if (result.open == false) {
+                        //code
+                        $( "#job_num" ).attr( "title", $("#job_num").val() + " job is closed." );
+                        $( "#job_num" ).tooltip().mouseover();
+                        $( "#job_num" ).val("");
+                        $( "#job_num" ).focus();
+                        window.setTimeout(hideToolTip,2000);
+                    }
+                }  
+            });
             populatePhaseList($(this).val());
-        });
+    });
     
      $("#timesheet_phase_lookup").change(function() {
         $("#phase").val($(this).val().replace("-   -",""));
