@@ -246,7 +246,7 @@ $res=@mysql_query($query);
 echo "<tt>";
 while($row=@mysql_fetch_object($res)) {
 	$row->job_num=ereg_replace("- *$","",$row->phase);
-	echo "<a title=\"$row->phase_desc\" href=javascript:document.add_time.phase.value='$row->phase';document.add_time.hours.focus();><font color=black>$row->phase</font></a><br>";
+	echo "<a title=\"$row->phase_desc\" href=javascript:putPhaseInField('$row->phase');document.add_time.hours.focus();><font color=black>$row->phase</font></a><br>";
 	}
 echo "</tt>";
 

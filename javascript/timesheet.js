@@ -5,6 +5,11 @@ function hideToolTip() {
     $( "#job_num" ).tooltip();
 }
 
+function putPhaseInField(phase) {
+    //code
+    $("#phase").next().find("input").val(phase);
+}
+
 function populatePhaseList(jobNumber) {
     $("#phase").html("");
     $.ajax({
