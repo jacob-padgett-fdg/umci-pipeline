@@ -87,7 +87,7 @@ $(function() {
                         $( "#job_num" ).tooltip().mouseover();
                         $( "#job_num" ).val("");
                         $( "#job_num" ).focus();
-                        window.setTimeout(hideToolTip,2000);
+                        window.setTimeout(hideToolTip,4000);
                     }
                     else if (result.open == false) {
                         //code
@@ -95,7 +95,7 @@ $(function() {
                         $( "#job_num" ).tooltip().mouseover();
                         $( "#job_num" ).val("");
                         $( "#job_num" ).focus();
-                        window.setTimeout(hideToolTip,2000);
+                        window.setTimeout(hideToolTip,4000);
                     }
                 }  
             });

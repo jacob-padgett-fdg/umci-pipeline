@@ -119,7 +119,7 @@
         this.element.val( "" );
         this._delay(function() {
           this.input.tooltip( "close" ).attr( "title", "" );
-        }, 2500 );
+        }, 4000 );
         this.input.autocomplete( "instance" ).term = "";
       },
  
