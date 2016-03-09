@@ -545,7 +545,7 @@ td.po-cost {
 #fd_left_nav {
     background-color: #004466;
     padding-top: 10px;
-    width: 140px;
+    min-width: 140px;
 }
 
 #fd_left_nav #fd_tabs_div {
