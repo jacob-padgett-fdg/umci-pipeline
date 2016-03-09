@@ -1,5 +1,19 @@
 <?
 require_once("header.phtml");
+
+
+require_once("settings.cfg");
+require_once("querylib.inc");
+require_once("global-auth.inc");
+
+
+require_once("timesheet_libs.inc");
+
+//if ($global_contacts_id='353'||$global_contacts_id=='4517'||$global_contacts_id='2'||$global_contacts_id='1') die("testing!!!");
+
+if ($global_contacts_id='353'||$global_contacts_id=='4517'||$global_contacts_id='2'||$global_contacts_id='1') include("viewpoint_connect_ro_pr.phtml");
+else include("viewpoint_connect_ro.phtml");
+
 require_once("timesheet_include.inc");
 
 $submit_text="Add";
@@ -34,7 +48,18 @@ if ($timesheet_time_id=="") {
 		";
 		}
 	}
+else
+{
+	$dashPosition = strpos ( $timesheet_time->job_num, "-");
+	$timesheet_time->job_num = substr($timesheet_time->job_num,0,$dashPosition);
+	//die($timesheet_time->phase);
+	?>
+	<script>
+		populatePhaseListValue('<?PHP print $timesheet_time->job_num; ?>','<?PHP print $timesheet_time->phase; ?>');
+	</script>
 	
+	<?PHP
+}
 echo"
 <form name=add_time id=add_time method=post action=$pagename>
 <input type=hidden name=mode value=timesheet_edit_add_time_verify>
@@ -74,7 +99,8 @@ Job Number:</font></a><br>
 </td><td valign=top>
 <a href=javascript:phase_help();><font color=black>Phase:</font></a><br>
 <input type=\"hidden\" name=\"phase_value\" id=\"phase_value\">
-<select id=\"phase\" name=\"phase\" tabindex=\"3\"></select><br>
+<select id=\"phase\" name=\"phase\" tabindex=\"3\">";
+echo "</select><br>
 <br>
 ";recent_phases($current_user->contacts_id);echo"
 </td><td valign=top>

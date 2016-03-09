@@ -50,6 +50,24 @@ function populatePhaseList(jobNumber) {
         });
 }
 
+function populatePhaseListValue(jobNumber,phase) {
+    $("#phase").html("");
+    $.ajax({
+        url: "getPhaseList.php?jobNumber=" + jobNumber,
+        success: function(result) {
+                // remove all options
+                result = JSON.parse(result);
+                $.each(result, function(i, item) {
+                    $('#phase').append($('<option/>', { 
+                        value: item.Phase,
+                        text : item.Phase + item.Description 
+                    }));
+                 });
+                putPhaseInField(phase);
+            }      
+        });
+}
+
 function validateForm() {
     //code
      
