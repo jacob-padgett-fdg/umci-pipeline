@@ -54,7 +54,7 @@ function is_valid_viewpoint_job($job_num) {
 		if ($job_str_query1==$job_str_query2) $job_str_query2="";
 	}
 
-	$job_query1="select * from JCJM with (NOLOCK) where JCCo = 1 and Job = '$job_str_query1'"; 
+	$job_query1="select * from JCJM with (NOLOCK) where JCCo = 1 and JobStatus = 1 and Job = '$job_str_query1'"; 
 	$job_res=ms_getoneb($job_query1);
     
 	if ($job_res) {
@@ -63,7 +63,7 @@ function is_valid_viewpoint_job($job_num) {
 		$job_res->Description=escapeshellcmd($job_res->Description);
 	} else {
 		if ($job_str_query2!="") {
-			$job_query2="select * from JCJM with (NOLOCK) where JCCo = 1 and Job = '$job_str_query2'"; 
+			$job_query2="select * from JCJM with (NOLOCK) where JCCo = 1 and JobStatus = 1 and Job = '$job_str_query2'"; 
 			$job_res=ms_getoneb($job_query2);
 			if ($job_res) {
 				$job_res->job=$job_str_query2;
