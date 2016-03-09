@@ -29,11 +29,11 @@ $phases_locked=ms_getoneb("select * from JCJM with (NOLOCK) where JCCo = 1 and J
 
 if ($phases_locked)
 {
-	$query="select Phase,Description from JCJP with (NOLOCK) where Job = '$jobNumber' and JCCo = 1 and ActiveYN = 'Y'";
+	$query="select Phase,Description from JCJP with (NOLOCK) where Job = '$jobNumber' and JCCo = 1 and ActiveYN = 'Y' and Phase NOT LIKE 'YYY%' and Phase NOT LIKE 'ZZZ%'";
 }
 else
 {
-	$query="select * from JCPC with (NOLOCK),JCPM with (NOLOCK) where JCPC.JCCo = JCPM.JCCo and JCPC.JCCo = 1 and JCPC.Phase = JCPM.Phase and JCPC.CostType = 1 and JCPC.PhaseGroup = 1 and JCPM.PhaseGroup = 1";
+	$query="select * from JCPC with (NOLOCK),JCPM with (NOLOCK) where JCPC.JCCo = JCPM.JCCo and JCPC.JCCo = 1 and JCPC.Phase = JCPM.Phase and JCPC.CostType = 1 and JCPC.PhaseGroup = 1 and JCPM.PhaseGroup = 1  and JCPC.Phase NOT LIKE 'YYY%' and JCPC.Phase NOT LIKE 'ZZZ%'";
 }
 
 if (!$use_odbc)
