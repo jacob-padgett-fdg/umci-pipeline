@@ -117,7 +117,8 @@
                 //code
                 this.element.append($('<option/>', { 
                     value: valueLowerCase,
-                    text : valueLowerCase 
+                    text : valueLowerCase ,
+                    selected: true
                 }));
             return;
             }
