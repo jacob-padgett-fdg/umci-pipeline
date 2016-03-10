@@ -1,6 +1,18 @@
 <?
-require("timesheet_header.phtml");
-require("timesheet_include.inc");
+require_once("header.phtml");
+
+require_once("settings.cfg");
+require_once("querylib.inc");
+require_once("global-auth.inc");
+
+require_once("timesheet_libs.inc");
+
+//if ($global_contacts_id='353'||$global_contacts_id=='4517'||$global_contacts_id='2'||$global_contacts_id='1') die("testing!!!");
+
+if ($global_contacts_id='353'||$global_contacts_id=='4517'||$global_contacts_id='2'||$global_contacts_id='1') include("viewpoint_connect_ro_pr.phtml");
+else include("viewpoint_connect_ro.phtml");
+
+require_once("timesheet_include.inc");
 
 $submit_text="Add";
 if ($timesheet_time_id=="") {
@@ -26,56 +38,89 @@ if ($earnings_code=="2") $ec_checked_ot="checked";
 if ($earnings_code=="3") $ec_checked_dt="checked";
 
 
-if ($timesheet_time_id=="") {
+if ($timesheet_time_id=="")
+{
 	echo "<a href=javascript:expenses();><font color=blue>Mileage/Subsistence/Parking/Travel</font></a><br>";
-	if ($current_user->timesheet_allow_ap_entry=='Y') {
+	if ($current_user->timesheet_allow_ap_entry=='Y')
+	{
 		echo "
 		<a href=$pagename?mode=timesheet_edit&timesheet_mode_new=timesheet_generate_ap_time><font color=blue>Generate AP Time Entries</font></a><br>
 		";
-		}
 	}
+}
+else
+{
+	$dashPosition = strpos ( $timesheet_time->job_num, "-");
+	$timesheet_time->job_num = substr($timesheet_time->job_num,0,$dashPosition);
+	//die($timesheet_time->phase);
+	?>
+	<script>
+		populatePhaseListValue('<?PHP print $timesheet_time->job_num; ?>','<?PHP print $timesheet_time->phase; ?>');
+	</script>
 	
-echo"
-<form name=add_time method=post action=$pagename>
-<input type=hidden name=mode value=timesheet_edit_add_time_verify>
-<input type=hidden name=timesheet_time_id value=\"$timesheet_time_id\">
-<input type=hidden name=return_to value=\"$return_to\">
+	<?PHP
+}
+?>	
 
-<table border=1>
-	<tr><td colspan=3 bgcolor=#dddddd align=center>
-		<b>$submit_text time for $timesheet_time->workday
-		<input type=hidden name=workday value=\"$timesheet_time->workday\">
-		for $current_user->first_name&nbsp;$current_user->last_name
-</b></td></tr>
+<form name="add_time" id="add_time" method="post" action="<?PHP print $pagename; ?>">
+<input type="hidden" name="mode" value="timesheet_edit_add_time_verify">
+<input type="hidden" name="timesheet_time_id" value="<?PHP print $timesheet_time_id; ?>">
+<input type="hidden" name="return_to" value="<?PHP print $return_to; ?>">
 
-<tr><td colspan=3>
-	Employee&nbsp;Number:&nbsp;$current_user->employee_num
-	<input type=hidden name=employee_num value=\"$current_user->employee_num\">
+<table border="1">
+	<tr>
+		<td colspan="3" bgcolor="#dddddd" align="center">
+			<b>
+				<?php print $submit_text . " time for " . $timesheet_time->workday; ?>
+				<input type="hidden" name="workday" value="<?PHP print $timesheet_time->workday; ?>">
+				for
+				<?php print $current_user->first_name . " " . $current_user->last_name; ?>
+			</b>
+		</td>
+	</tr>
 
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shift:&nbsp;
-	<select name=shift tabindex=1>
-	$timesheet_time->shift_last
-	";if ($timesheet_time_id!="") echo "<option>$timesheet_time->shift</option>";echo"
+	<tr><td colspan="3">
+	Employee Number: <?php print $current_user->employee_num; ?>
+	<input type="hidden" name="employee_num" value="<?php print $current_user->employee_num; ?>">
+
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shift:
+	<select name="shift" id="shift" tabindex="1">
+		<?php
+			print $timesheet_time->shift_last; 
+			if ($timesheet_time_id!="")
+				echo "<option>$timesheet_time->shift</option>";
+		?>
 	<option>1</option>
 	<option>2</option>
 	<option>3</option>
 	</select>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<input type=submit value=\"$submit_text\" tabindex=5>
+	<input type="submit" value="<?PHP print $submit_text; ?>" tabindex=5>
 </td></tr>
 
-<tr><td valign=top>
-<a href=javascript:job_help();><font color=black>
-Job&nbsp;Number:</font></a><br>
-<input type=text size=13 name=job_num value=\"$timesheet_time->job_num\" tabindex=2><br>
+<tr>
+	<td valign="top">
+		<a href="javascript:job_help();">
+			<font color="black">
+				Job Number:
+			</font>
+		</a>
+		<br>
+		<?PHP echo "
+		<input type=\"text\" size=\"13\" name=\"job_num\" id=\"job_num\" value=\"$timesheet_time->job_num\" tabindex=\"2\"><br>
+<input type=\"hidden\" name=\"job_num_hidden\" id=\"job_num_hidden\" value=\"$timesheet_time->job_num\" >
+<input type=\"hidden\" name=\"job_description_hidden\" id=\"job_description_hidden\" value=\"$timesheet_time->description\" >
 ";recent_jobs($current_user->contacts_id);echo"
 </td><td valign=top>
 <a href=javascript:phase_help();><font color=black>Phase:</font></a><br>
-<input type=text size=13 name=phase value=\"$timesheet_time->phase\" tabindex=3><br>
+<input type=\"hidden\" name=\"phase_value\" id=\"phase_value\">
+<select id=\"phase\" name=\"phase\" tabindex=\"3\">";
+echo "</select><br>
+<br>
 ";recent_phases($current_user->contacts_id);echo"
 </td><td valign=top>
 Hours:<br>
-<input type=text size=5 name=hours value=\"$timesheet_time->hours\" tabindex=4><br>
+<input type=text size=5 name=hours value=\"$timesheet_time->hours\" tabindex=\"4\"><br>
 ST <input type=radio name=earnings_code value=1 $ec_checked_st><br>
 OT <input type=radio name=earnings_code value=2 $ec_checked_ot><br>
 DT <input type=radio name=earnings_code value=3 $ec_checked_dt><br>

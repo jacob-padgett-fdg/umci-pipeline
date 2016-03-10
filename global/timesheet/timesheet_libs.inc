@@ -226,7 +226,7 @@ echo "<tt>";
 while($row=@mysql_fetch_object($res)) {
 	$row->job_num=ereg_replace("- *$","",$row->job_num);
 	$row->job_num=ereg_replace(" ","",$row->job_num);
-	echo "<a title=\"$row->job_desc\" href=javascript:document.add_time.job_num.value=\"$row->job_num\";document.add_time.phase.focus();><font color=black>$row->job_num</font></a><br>";
+	echo "<a title=\"$row->job_desc\" href=javascript:document.add_time.job_num.value=\"$row->job_num\";populatePhaseList('".$row->job_num."');><font color=black>$row->job_num</font></a><br>";
 	}
 echo "<hr>";
 if (!($expenses)) echo "
@@ -246,7 +246,7 @@ $res=@mysql_query($query);
 echo "<tt>";
 while($row=@mysql_fetch_object($res)) {
 	$row->job_num=ereg_replace("- *$","",$row->phase);
-	echo "<a title=\"$row->phase_desc\" href=javascript:document.add_time.phase.value='$row->phase';document.add_time.hours.focus();><font color=black>$row->phase</font></a><br>";
+	echo "<a title=\"$row->phase_desc\" href=javascript:putPhaseInField('$row->phase');document.add_time.hours.focus();><font color=black>$row->phase</font></a><br>";
 	}
 echo "</tt>";
 
@@ -833,13 +833,27 @@ function dump_underlings($employee_num) {
 
 /////////////////////////////////////////////////////////////////////////////////////////
 function i_have_underlings($employee_num) {
+	global $use_odbc;
 	$pm_info=getoneb("select * from contacts where employee_num = '$employee_num'");
 	$query="select * from timesheet_pm_job_audit_list where pm_id = $pm_info->contacts_id";
 	if (getoneb($query)) return TRUE;
 	$query="select * from HRRM with (NOLOCK) where HRCo = 1 and udsupervisor = $employee_num and ActiveYN = 'Y' order by LastName, FirstName";
-	$res=@mssql_query($query);
-	if ((mssql_num_rows($res))>0) return TRUE;
-	else return FALSE;
+	if (!$use_odbc)
+	{
+		$res=@mssql_query($query);
+		if ((mssql_num_rows($res))>0)
+			return TRUE;
+		else
+			return FALSE;
+	}
+	else
+	{
+		$res=odbc_exec($conn, $query);
+		if ((odbc_num_rows($res))>0)
+			return TRUE;
+		else
+			return FALSE;
+	}
 }
 
 function find_supervisor($employee_num) {
@@ -982,6 +996,48 @@ function show_viewpoint_job_phases($job_num) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////
+function get_viewpoint_job_phases_array($job_num)
+{	
+	global $use_odbc;
+	$resultArray = array();
+	$query = "";
+	
+	$phases_locked=ms_getoneb("select * from JCJM with (NOLOCK) where JCCo = 1 and Job = '$job_num' and LockPhases = 'Y'");
+	
+	if ($phases_locked) {
+		$query="select Phase,Description from JCJP with (NOLOCK) where Job = '$job_num' and JCCo = 1 and ActiveYN = 'Y'";
+		} else {
+		$query="select * from JCPC with (NOLOCK),JCPM with (NOLOCK) where JCPC.JCCo = JCPM.JCCo and JCPC.JCCo = 1 and JCPC.Phase = JCPM.Phase and JCPC.CostType = 1 and JCPC.PhaseGroup = 1 and JCPM.PhaseGroup = 1";
+		}
+
+	if (!$use_odbc)
+	{
+		$res=@mssql_query($query);
+	
+		while($row=@mssql_fetch_array($res))
+		{
+			array_push($resultArray, $row);
+		}
+	}
+	else
+	{
+		
+		$res=odbc_exec($conn, $query);
+		
+		while($row=odbc_fetch_array($res))
+		{
+			//die("am i here 2");
+			//echo("helllo world");
+			array_push($resultArray, $row);
+		}
+	}
+	return $resultArray;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 function verify_timesheet_hours($hours){
 	$hours1=escapeshellcmd(round($hours,2));
 	$hours2=floor($hours);
