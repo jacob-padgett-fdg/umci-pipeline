@@ -115,11 +115,13 @@
             if (this.element[0].name == "phase")
             {
                 //code
-                this.element.append($('<option/>', { 
+                putPhaseInField(valueLowerCase);
+                
+                /*this.element.append($('<option/>', { 
                     value: valueLowerCase,
-                    text : valueLowerCase ,
-                    selected: true
-                }));
+                    text : valueLowerCase
+                    
+                }));*/
             return;
             }
         }
