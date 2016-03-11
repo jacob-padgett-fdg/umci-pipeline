@@ -95,7 +95,7 @@ else
 	<option>3</option>
 	</select>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<input type="submit" value="<?PHP print $submit_text; ?>" tabindex=5>
+	<input type="submit" value="<?PHP print $submit_text; ?>" tabindex="7">
 </td></tr>
 
 <tr>
@@ -106,82 +106,98 @@ else
 			</font>
 		</a>
 		<br>
-		<?PHP echo "
-		<input type=\"text\" size=\"13\" name=\"job_num\" id=\"job_num\" value=\"$timesheet_time->job_num\" tabindex=\"2\"><br>
-<input type=\"hidden\" name=\"job_num_hidden\" id=\"job_num_hidden\" value=\"$timesheet_time->job_num\" >
-<input type=\"hidden\" name=\"job_description_hidden\" id=\"job_description_hidden\" value=\"$timesheet_time->description\" >
-";recent_jobs($current_user->contacts_id);echo"
-</td><td valign=top>
-<a href=javascript:phase_help();><font color=black>Phase:</font></a><br>
-<input type=\"hidden\" name=\"phase_value\" id=\"phase_value\">
-<select id=\"phase\" name=\"phase\" tabindex=\"3\">";
-echo "</select><br>
-<br>
-";recent_phases($current_user->contacts_id);echo"
-</td><td valign=top>
-Hours:<br>
-<input type=text size=5 name=hours value=\"$timesheet_time->hours\" tabindex=\"4\"><br>
-ST <input type=radio name=earnings_code value=1 $ec_checked_st><br>
-OT <input type=radio name=earnings_code value=2 $ec_checked_ot><br>
-DT <input type=radio name=earnings_code value=3 $ec_checked_dt><br>
-
-</td></tr>
-
-<tr><td colspan=3>
-	Notes: <br>
-	<textarea name=comments cols=40 rows=5 scrollbars=no tabindex=6>$timesheet_time->comments</textarea>
-</td></tr>
-
-<tr><td colspan=2>";
-	$tmp=date_info($timesheet_time->workday);
-	if (($tmp->day_of_week_num==1)&&($timesheet_time_id=="")) echo "Add entry for entire week: <input type=checkbox name=full_week>";echo "
-</td><td align=right>
-	<input type=submit value=\"$submit_text\">
-</td></tr>
-
+		<input type="text" size="13" name="job_num" id="job_num" value="<?php echo $timesheet_time->job_num; ?>" tabindex="2"><br>
+		<input type="hidden" name="job_num_hidden" id="job_num_hidden" value="<?PHP echo $timesheet_time->job_num; ?>" >
+		<input type="hidden" name="job_description_hidden" id="job_description_hidden" value="<?PHP echo $timesheet_time->description; ?>" >
+		<?PHP recent_jobs($current_user->contacts_id); ?>
+	</td><td valign="top">
+		<a href="javascript:phase_help();">
+			<font color="black">Phase:</font>
+		</a>
+		<br>
+		<input type="hidden" name="phase_value" id="phase_value">
+		<select id="phase" name="phase" tabindex="3"></select>
+		<br><br>
+		<?PHP recent_phases($current_user->contacts_id); ?>
+	</td>
+	<td valign="top">
+		Hours:
+		<br>
+		<input type="text" size="5" name="hours" value="<?PHP echo $timesheet_time->hours; ?>" tabindex="4">
+		<br>
+		ST <input type="radio" name="earnings_code" value="1" <?PHP echo $ec_checked_st; ?>><br>
+		OT <input type="radio" name="earnings_code" value="2" <?PHP echo $ec_checked_st; ?>><br>
+		DT <input type="radio" name="earnings_code" value="3" <?PHP echo $ec_checked_st; ?>><br>
+	</td>
+</tr>
+<tr>
+	<td colspan="3">
+		Notes: <br>
+		<textarea name="comments" cols="40" rows="5" scrollbars="no" tabindex="5"><?php echo $timesheet_time->comments; ?></textarea>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<?PHP
+			$tmp=date_info($timesheet_time->workday);
+			if (($tmp->day_of_week_num==1) && ($timesheet_time_id==""))
+				echo "Add entry for entire week: <input type=\"checkbox\" name=\"full_week\">";
+		?>
+	</td>
+	<td align="right">
+		<input type="submit" tabindex="6" value="<?PHP print $submit_text; ?>">
+	</td>
+</tr>
 </form>
 </table>
 
 <script>
 
-function phase_help() {
-	if (document.add_time.job_num.value=='') {
+function phase_help()
+{
+	if (document.add_time.job_num.value=='')
+	{
 		alert('Error: Please enter a job number first');
-		} else {
-		open ('$pagename?mode=timesheet_phase_popup&job_num=' + document.add_time.job_num.value,'timesheet_popup','height=400,width=500,scrollbars=yes,resizable=yes');
-		}
 	}
+	else
+	{
+		open ('<?PHP print $pagename; ?>?mode=timesheet_phase_popup&job_num=' + document.add_time.job_num.value,'timesheet_popup','height=400,width=500,scrollbars=yes,resizable=yes');
+	}
+}
 
-function job_help() {
-	open('$pagename?mode=timesheet_job_popup','timesheet_popup',
-	'height=400,width=400,scrollbars=yes,resizable=yes');
-	}
+function job_help()
+{
+	open('<?PHP print $pagename; ?>?mode=timesheet_job_popup','timesheet_popup','height=400,width=400,scrollbars=yes,resizable=yes');
+}
 
-function expenses() {
-	open('$pagename?mode=timesheet_edit_expenses_popup&workday=$timesheet_time->workday','spt_popup','height=400,width=400,scrollbars=yes,resizable=yes');
-	}
-function spt() {
-	open('$pagename?mode=timesheet_edit_add_spt_popup&workday=$timesheet_time->workday','spt_popup','height=400,width=400,scrollbars=yes,resizable=yes');
-	}
+function expenses()
+{
+	open('<?PHP print $pagename; ?>?mode=timesheet_edit_expenses_popup&workday=$timesheet_time->workday','spt_popup','height=400,width=400,scrollbars=yes,resizable=yes');
+}
 
-function mileage() {
-	open('$pagename?mode=timesheet_edit_add_mileage_popup&workday=$timesheet_time->workday','spt_popup','height=400,width=400,scrollbars=yes,resizable=yes');
-	}
+function spt()
+{
+	open('<?PHP print $pagename; ?>?mode=timesheet_edit_add_spt_popup&workday=$timesheet_time->workday','spt_popup','height=400,width=400,scrollbars=yes,resizable=yes');
+}
+
+function mileage()
+{
+	open('<?PHP print $pagename; ?>?mode=timesheet_edit_add_mileage_popup&workday=$timesheet_time->workday','spt_popup','height=400,width=400,scrollbars=yes,resizable=yes');
+}
 document.add_time.job_num.focus();
 </script>
-";
 
-if ($timesheet_time_id!="") {
-	echo "
-	<script>
-	function dte(ts_id) {
-	if (confirm('Are you sure you want to delete this entry?')) document.location='$pagename?mode=timesheet_edit_time_remove&timesheet_time_id=' + ts_id;
+<?PHP
+	if ($timesheet_time_id != "")
+	{
+		?>
+		<script>
+			function dte(ts_id)
+			{
+				if (confirm('Are you sure you want to delete this entry?')) document.location='<?PHP print $pagename; ?>?mode=timesheet_edit_time_remove&timesheet_time_id=' + ts_id;
+			}
+		</script>
+		<a href="javascript:dte(<?PHP print $timesheet_time_id; ?>);"><b>DELETE THIS ENTRY</b></a>
+		<?PHP
 	}
-	</script>
-	<a href=javascript:dte($timesheet_time_id);><b>DELETE THIS ENTRY</b></a>
-	";
-	
-	
-	}
-
 ?>

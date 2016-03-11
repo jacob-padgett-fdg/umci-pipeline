@@ -120,14 +120,43 @@ $(function() {
             event.preventDefault();
             
             if ($(this).parent().prev().attr("name") == "phase") {
-                $("[name=hours]").focus();
+                if(event.shiftKey) {
+                    $("#job_num").focus(); //Focus previous input
+                 } else {
+                    $("[name=hours]").focus();
+                 }
             }
             else if ($(this).parent().prev().attr("name") == "shift") {
-                $("#job_num").focus()
+                if(event.shiftKey) {
+                    $("[tabindex=7]").focus(); //Focus previous input
+                 } else {
+                    $("#job_num").focus();
+                 }
             }
             else {
                 var currentTabIndex = parseInt($(this).attr("tabindex"));
-                var nextTabIndex = currentTabIndex + 1;
+                var nextTabIndex = 1;
+                
+                if (event.shiftKey)
+                {
+                    if (currentTabIndex == 1)
+                    {
+                        nextTabIndex = 7;
+                    }
+                    else
+                    {
+                        nextTabIndex = currentTabIndex - 1;
+                    }
+                }
+                else
+                {
+                    if (currentTabIndex < 7)
+                    {
+                        nextTabIndex = currentTabIndex + 1;
+                    }    
+                }
+                
+                
                 
                 if (nextTabIndex == 1) {
                     $('#shift').next().find('input').focus();
