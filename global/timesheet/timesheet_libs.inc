@@ -368,7 +368,7 @@ while($row=@mysql_fetch_object($res)) {
 	if ($row->comments!="") echo "<a href=javascript:shownotes($row->timesheet_time_id)>N</a>";
 	if ($noedit==0) {
 		if ($ectype=='$') echo "</td><td><tt><a href=javascript:dte('$row->timesheet_time_id');><font size=-1 color=blue><i>Delete</i></font></a></tt>";
-		else echo "</td><td><tt><a href=javascript:ete('$row->timesheet_time_id');><font size=-1 color=blue><i>Edit</i></font></a></tt>";
+		else echo "</td><td><tt><a href=javascript:ete('$row->timesheet_time_id','$date');><font size=-1 color=blue><i>Edit</i></font></a></tt>";
 		}
 	echo "</td></tr>";
 	

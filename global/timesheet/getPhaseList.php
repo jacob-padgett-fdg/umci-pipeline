@@ -13,23 +13,24 @@ require_once("viewpoint_libs.inc");
 require_once("timesheet_libs.inc");
 
 $jobNumber = $_REQUEST["jobNumber"];
+$job = is_valid_viewpoint_job($jobNumber);
 
 //check last character
-$lastCharacter = substr($jobNumber,strlen($jobNumber) - 1);
+//$lastCharacter = substr($jobNumber,strlen($jobNumber) - 1);
 
-if ($lastCharacter != "-")
-    $jobNumber .= "-";
+//if ($lastCharacter != "-")
+//    $jobNumber .= "-";
     
 if ($global_contacts_id='353'||$global_contacts_id=='4517'||$global_contacts_id='2'||$global_contacts_id='1') include("viewpoint_connect_ro_pr.phtml");
 else include("viewpoint_connect_ro.phtml");
 
 $resultArray = array();
 
-$phases_locked=ms_getoneb("select * from JCJM with (NOLOCK) where JCCo = 1 and Job = '$jobNumber' and LockPhases = 'Y'");
+$phases_locked=ms_getoneb("select * from JCJM with (NOLOCK) where JCCo = 1 and Job = '".$job->Job."' and LockPhases = 'Y'");
 
 if ($phases_locked)
 {
-	$query="select Phase,Description from JCJP with (NOLOCK) where Job = '$jobNumber' and JCCo = 1 and ActiveYN = 'Y' and Phase NOT LIKE 'YYY%' and Phase NOT LIKE 'ZZZ%'";
+	$query="select Phase,Description from JCJP with (NOLOCK) where Job = '".$job->Job."' and JCCo = 1 and ActiveYN = 'Y' and Phase NOT LIKE 'YYY%' and Phase NOT LIKE 'ZZZ%'";
 }
 else
 {
@@ -41,7 +42,7 @@ if (!$use_odbc)
 	$res=@mssql_query($query);	
 	while($row=@mssql_fetch_array($res))
 	{
-        if (is_valid_viewpoint_labor_phase($row['Phase'],$jobNumber))
+        if (is_valid_viewpoint_labor_phase($row['Phase'],$job->Job))
             array_push($resultArray, $row);
 	}
 }
@@ -50,7 +51,7 @@ else
     $res=odbc_exec($conn, $query);
     while($row=odbc_fetch_array($res))
     {
-        if (is_valid_viewpoint_labor_phase($row['Phase'],$jobNumber))
+        if (is_valid_viewpoint_labor_phase($row['Phase'],$job->Job))
             array_push($resultArray, $row);
     }
 }

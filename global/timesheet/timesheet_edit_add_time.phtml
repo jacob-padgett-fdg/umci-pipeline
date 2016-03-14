@@ -48,18 +48,6 @@ if ($timesheet_time_id=="")
 		";
 	}
 }
-else
-{
-	$dashPosition = strpos ( $timesheet_time->job_num, "-");
-	$timesheet_time->job_num = substr($timesheet_time->job_num,0,$dashPosition);
-	//die($timesheet_time->phase);
-	?>
-	<script>
-		populatePhaseListValue('<?PHP print $timesheet_time->job_num; ?>','<?PHP print $timesheet_time->phase; ?>');
-	</script>
-	
-	<?PHP
-}
 ?>	
 
 <form name="add_time" id="add_time" method="post" action="<?PHP print $pagename; ?>">
@@ -150,6 +138,30 @@ else
 </tr>
 </form>
 </table>
+
+<?PHP
+
+if ($timesheet_time_id != "")
+{
+	$dashPosition = strpos ( $timesheet_time->job_num, "-");
+	$timesheet_time->job_num = substr($timesheet_time->job_num,0,$dashPosition);
+	//die($timesheet_time->phase);
+	?>
+	<script>
+		populatePhaseListValue('<?PHP print $timesheet_time->job_num; ?>','<?PHP print $timesheet_time->phase; ?>');
+	</script>	
+	<?PHP
+}
+else if ($timesheet_time->job_num)
+{
+	?>
+	<script>
+		populatePhaseList('<?PHP print $timesheet_time->job_num; ?>');
+	</script>
+	<?PHP
+}
+
+?>
 
 <script>
 
