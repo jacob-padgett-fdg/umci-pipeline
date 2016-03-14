@@ -12,8 +12,8 @@ require_once("global-auth.inc");
 require_once("viewpoint_libs.inc");
 require_once("timesheet_libs.inc");
 
-$jobNumber = $_REQUEST["jobNumber"];
-$job = is_valid_viewpoint_job($jobNumber);
+//$jobNumber 	= $_REQUEST["jobNumber"];
+$job 				= is_valid_viewpoint_job($jobNumber);
 
 //check last character
 //$lastCharacter = substr($jobNumber,strlen($jobNumber) - 1);
