@@ -13,7 +13,6 @@ require_once("viewpoint_libs.inc");
 require_once("timesheet_libs.inc");
 
 //$jobNumber 	= $_REQUEST["jobNumber"];
-$job 				= is_valid_viewpoint_job($jobNumber);
 
 //check last character
 //$lastCharacter = substr($jobNumber,strlen($jobNumber) - 1);
@@ -23,6 +22,8 @@ $job 				= is_valid_viewpoint_job($jobNumber);
     
 if ($global_contacts_id='353'||$global_contacts_id=='4517'||$global_contacts_id='2'||$global_contacts_id='1') include("viewpoint_connect_ro_pr.phtml");
 else include("viewpoint_connect_ro.phtml");
+
+$job = is_valid_viewpoint_job($jobNumber);
 
 $resultArray = array();
 
