@@ -53,6 +53,7 @@ if ($timesheet_time_id=="")
 <form name="add_time" id="add_time" method="post" action="<?PHP print $pagename; ?>">
 <input type="hidden" name="mode" value="timesheet_edit_add_time_verify">
 <input type="hidden" name="timesheet_time_id" value="<?PHP print $timesheet_time_id; ?>">
+<input type="hidden" name="timesheet_id" id="timesheet_id" value="<?PHP print $timesheet_time->timesheet_id; ?>">
 <input type="hidden" name="return_to" value="<?PHP print $return_to; ?>">
 
 <table border="1">
@@ -125,14 +126,13 @@ if ($timesheet_time_id=="")
 	</td>
 </tr>
 <tr>
-	<td colspan="2">
+	<td colspan="3" align="right">
 		<?PHP
 			$tmp=date_info($timesheet_time->workday);
 			if (($tmp->day_of_week_num==1) && ($timesheet_time_id==""))
 				echo "Add entry for entire week: <input type=\"checkbox\" name=\"full_week\">";
 		?>
-	</td>
-	<td align="right">
+		<input type="button" tabindex="5" id="cancel_button" value="Cancel">
 		<input type="submit" tabindex="6" value="<?PHP print $submit_text; ?>">
 	</td>
 </tr>

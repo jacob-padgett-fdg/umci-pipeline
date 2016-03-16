@@ -105,6 +105,10 @@ $(function() {
         $("#phase").val($(this).val().replace("-   -",""));
      });
      
+     $("#cancel_button").click(function () {
+        window.location.href='?mode=timesheet_edit&timesheet_id_new=' + $("#timesheet_id").val();    
+    });
+     
      /*$( "#job_num" ).autocomplete({
       source: "jobNumberAutoComplete.php",
       select: function( event, ui ) {
