@@ -108,15 +108,17 @@ if (!($shift_info)) {
 	}
 
 $special_job_check=ereg_replace("- *","",$job_info->job);
+
 if ($special_job_check=="DD708") $earnings_code="8";
 if ($special_job_check=="DD709") $earnings_code="9";
 if ($special_job_check=="DD710") $earnings_code="10";
 
+if (empty($earnings_code)) $earnings_code = "1";
 
 //echo "sjc: -$special_job_check-";exit;
 
 $EC_OK=FALSE;
-if (!($earnings_code)) die ("Error: No earnings code, or earnings code error. Please contact your system administrator!");
+if (!($earnings_code)) die ("Error: No earnings code. Please contact your system administrator!");
 	else
 		switch ($earnings_code) {
 			case 1:
@@ -128,7 +130,7 @@ if (!($earnings_code)) die ("Error: No earnings code, or earnings code error. Pl
 				$EC_OK=TRUE;
 				break;
 			}
-if (!($EC_OK)) die ("Error: No earnings code, or earnings code error. Please contact your system administrator!");
+if (!($EC_OK)) die ("Error: Earnings code error. Please contact your system administrator!");
 
 if ($workday_info->week_end != invali_date($timesheet_info->week_ending)) {
 	echo "<br>Error: Week Ending doesn't match given date! This probably came from trying to edit more than one timesheet at a time. Don't do that. If this problem persists, please contact your system administrator.<p>";
