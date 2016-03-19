@@ -184,17 +184,17 @@ function job_help()
 
 function expenses()
 {
-	open('<?PHP print $pagename; ?>?mode=timesheet_edit_expenses_popup&workday=$timesheet_time->workday','spt_popup','height=400,width=400,scrollbars=yes,resizable=yes');
+	open('<?PHP print $pagename; ?>?mode=timesheet_edit_expenses_popup&workday=<?PHP print $timesheet_time->workday; ?>','spt_popup','height=400,width=400,scrollbars=yes,resizable=yes');
 }
 
 function spt()
 {
-	open('<?PHP print $pagename; ?>?mode=timesheet_edit_add_spt_popup&workday=$timesheet_time->workday','spt_popup','height=400,width=400,scrollbars=yes,resizable=yes');
+	open('<?PHP print $pagename; ?>?mode=timesheet_edit_add_spt_popup&workday=<?PHP print $timesheet_time->workday; ?>','spt_popup','height=400,width=400,scrollbars=yes,resizable=yes');
 }
 
 function mileage()
 {
-	open('<?PHP print $pagename; ?>?mode=timesheet_edit_add_mileage_popup&workday=$timesheet_time->workday','spt_popup','height=400,width=400,scrollbars=yes,resizable=yes');
+	open('<?PHP print $pagename; ?>?mode=timesheet_edit_add_mileage_popup&workday=<?PHP print $timesheet_time->workday; ?>','spt_popup','height=400,width=400,scrollbars=yes,resizable=yes');
 }
 document.add_time.job_num.focus();
 </script>
