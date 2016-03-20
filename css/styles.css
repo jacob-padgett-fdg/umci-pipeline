@@ -2,7 +2,7 @@ body {
     background-color: #FFF;
     color: #000;
     margin: 0;
-    font-family: helvetica;
+    font-family: Times;
 }
 img {
     border: 0;
@@ -468,7 +468,6 @@ div.reset_control {
     font-style: italic;
 }
 
-
 table.standard tbody tr {
     color: #555;
 }
@@ -502,7 +501,6 @@ td.po-cost {
     text-align: right;
 }
 
-
 #my_jobs_drop, #recent_jobs_drop {
     z-index: 2;
     position: absolute;
@@ -510,165 +508,6 @@ td.po-cost {
     display: none;
     background: white;
     border: 1px solid black;
-}
-
-.flexContainer {
-    display: flex;
-    flex-direction: row;
-    background-color: #e0ebeb;
-}
-
-#fd_my_home_nav_button, #recent_jobs_button, #my_jobs_button, #job_search_header {
-    background-color: #f0f5f5;
-    text-align: center;
-    color: blue;
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 10px;
-    padding-bottom: 5px;
-    font-family: helvetica;
-}
-#fd_my_home_nav_button a, #recent_jobs_button span, #my_jobs_button span {
-    text-decoration:none;
-}
-
-#job_search_header  label {
-    color: black;
-}
-
-#job_search_header form {
-    display: inline;
-}
-
-#login_status_header {
-    position: absolute;
-    right: 10px;
-    text-align: center;
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 10px;
-    padding-bottom: 5px;
-    font-family: helvetica;
-}
-
-#fd_left_nav {
-    background-color: #004466;
-    padding-top: 10px;
-    min-width: 140px;
-}
-
-#fd_left_nav #fd_tabs_div {
-    padding-bottom: 0px;
-    margin-top: 5px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 0px;
-}
-
-
-td.normnav {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    background-color: #e6e6e6;
-    padding: 3px;
-    white-space: nowrap;
-}
-
-#fd_tabs_div div.normnav {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    background-color: #e6e6e6;
-    padding: 3px;
-    white-space: nowrap;
-}
-
-#fd_tabs_div div.normnav:hover, td.normnav:hover {
-    font-weight: bold;
-    background-color: #CCCCCC;
-}
-
-#fd_tabs_div div.selectnav {
-    background-color: #FFFFFF;
-    border-bottom-style: solid;
-    border-bottom-color: #FFFFFF;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    padding: 3px;
-    white-space: nowrap;
-    cursor: pointer;
-}
-
-#sub_application_main_table {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.dailylog_entry {
-    background-color: #f5f5f0;
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 15px;
-}
-
-.dailylog_entry  div:first-child {
-    background-color: #1a8bff;
-    padding: 3px;
-    color: #ffffff;
-}
-
-.dailylog_entry label {
-    font-weight: bold;
-    width: 150px;
-    display: inline-block;
-}
-
-.div label {
-    font-weight: bold;
-    width: 100px;
-    display: inline-block;
-}
-
-#dailylog_totals {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
-    width: 50%
-}
-
-.margin-div {
-    margin: 5px 5px 5px 5px;
-}
-
-#dailylog_edit_table {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-}
-
-#fd_tabs_div {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-#dailylog_save_button, #dailylog_cancel_button {
-    background-color: #ffcc44
-}
-
-#production_graph_filters button {
-    width: 400px;
-}
-
-.timesheet_content {
-    margin: 5px 5px 5px 5px;
 }
 
 .custom-combobox {
@@ -691,11 +530,18 @@ td.normnav {
   body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > a {
     height: 20px;
     position: relative;
-    top: -2px;
+    top: -3px;
     background: #FFFFFF;
     border-color: #999999;
   }
   
+  span.custom-combobox:nth-child(3) > a:nth-child(2) {
+    height: 20px;
+    position: relative;
+    top: -3px;
+    background: #FFFFFF;
+    border-color: #999999;
+  }
   
   body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > input, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > input {
     height: 16px;
@@ -708,30 +554,11 @@ td.normnav {
   body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > input {
     width: 50px;
   }
-  
-  .ui-autocomplete {
-    max-height: 100px;
-    overflow-y: auto;
-    /* prevent horizontal scrollbar */
-    overflow-x: hidden;
-  }
-
-  /* IE 6 doesn't support max-height
-   * we use height instead, but this forces the menu to always be this tall
-   */
-  * html .ui-autocomplete {
-
-    height: 100px;
-
-  }
-
-
 
 /*This will work for firefox*/
 @-moz-document url-prefix() {
     body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > a {
     position: relative;
-    top: -2px;
+    top: -4px;
   }
 }
-
