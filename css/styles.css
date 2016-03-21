@@ -528,37 +528,61 @@ td.po-cost {
   }
   
   body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > a {
-    height: 20px;
+    height: 21px;
     position: relative;
-    top: -3px;
+    top: -1px;
     background: #FFFFFF;
     border-color: #999999;
   }
   
   span.custom-combobox:nth-child(3) > a:nth-child(2) {
-    height: 20px;
+    height: 21px;
     position: relative;
-    top: -3px;
+    top: -1px;
     background: #FFFFFF;
     border-color: #999999;
   }
   
   body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > input, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > input {
-    height: 16px;
+    height: 17px;
     background: #ffffff;
     border-bottom-left-radius: 0px;
     border-top-left-radius: 0px;
     border-color: #999999;
+    font-family: times;
+    color: #000;
+    font-size: .8em;
   }
   
   body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > input {
     width: 50px;
   }
 
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+  
+  .ui-menu-item {
+    font-family: times;
+    color: #000;
+    font-size: .8em;
+  }
+
+  /* IE 6 doesn't support max-height
+   * we use height instead, but this forces the menu to always be this tall
+   */
+  * html .ui-autocomplete {
+
+    height: 100px;
+
+  }
+
 /*This will work for firefox*/
 @-moz-document url-prefix() {
     body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > a {
-    position: relative;
-    top: -4px;
+    
   }
 }

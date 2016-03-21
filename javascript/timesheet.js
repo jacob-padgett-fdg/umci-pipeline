@@ -119,7 +119,7 @@ $(function() {
       }
     });*/
      
-    $("input").keydown(function(event) {
+    $("#add_time input").keydown(function(event) {
         if (event.keyCode == 9) { 
             event.preventDefault();
             

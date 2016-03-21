@@ -240,6 +240,27 @@ echo "<a title=DD724 href=javascript:document.add_time.job_num.value='Training';
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+function recent_jobs_for_mileage ($employee_id,$expenses=0) {
+$query="select job_num,job_desc,max(timesheet_time_id) as maxtimesheet_time_id from timesheet_time where employee_id = '$employee_id' group by job_num order by maxtimesheet_time_id desc limit 10";
+$res=@mysql_query($query);
+echo "<tt>";
+while($row=@mysql_fetch_object($res)) {
+	$row->job_num=ereg_replace("- *$","",$row->job_num);
+	$row->job_num=ereg_replace(" ","",$row->job_num);
+	echo "<a title=\"$row->job_desc\" href=javascript:document.add_mileage.job_num.value='$row->job_num';document.add_mileage.phase.focus();><font color=black>$row->job_num</font></a><br>";
+	}
+echo "<hr>";
+if (!($expenses)) echo "
+<a title=DD708 href=javascript:document.add_mileage.job_num.value='Vacation';document.add_mileage.phase.value='';document.add_mileage.phase.focus();><font color=black>Vacation</font></a><br>
+<a title=DD709 href=javascript:document.add_mileage.job_num.value='Sick';document.add_mileage.phase.value='';document.add_mileage.phase.focus();><font color=black>Sick</font></a><br>
+<a title=DD710 href=javascript:document.add_mileage.job_num.value='Holiday';document.add_mileage.phase.value='';document.add_mileage.phase.focus();><font color=black>Holiday</font></a><br>";
+
+echo "<a title=DD724 href=javascript:document.add_mileage.job_num.value='Training';document.add_mileage.phase.value='';document.add_mileage.phase.focus();><font color=black>Training</font></a><br>
+</tt>
+";
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 function recent_phases ($employee_id) {
 $query="select phase,phase_desc,max(timesheet_time_id) as maxtimesheet_time_id from timesheet_time where employee_id = '$employee_id' group by phase order by maxtimesheet_time_id desc limit 10";
 $res=@mysql_query($query);

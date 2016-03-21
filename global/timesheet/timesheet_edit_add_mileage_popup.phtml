@@ -1,93 +1,76 @@
-<?
+<?PHP
 require_once("querylib.inc");
 require_once("timesheet_include.inc");
 
 $mileage_rate = get_mileage_rate($workday);
 
-echo "
-
-<body bgcolor=white>
-
-<table border=1><tr><td colspan=2 bgcolor=#dddddd>
+?>
+<body bgcolor="white">
+<form name="add_mileage" id="add_mileage" method="post" action="<?PHP print $pagename; ?>">
+<table border="1"><tr><td colspan="2" bgcolor="#dddddd">
 Add Mileage:
 </td></tr>
 
-<form name=add_time method=post action=$pagename>
-<input type=hidden name=mode value='timesheet_edit_add_spt_verify'>
-<input type=hidden name=employee_num value='$current_user->employee_num'>
-<input type=hidden name=earnings_code value=7>
-<input type=hidden name=comments>
+
+<input type="hidden" name="mode" value="timesheet_edit_add_spt_verify">
+<input type="hidden" name="employee_num" value="<?PHP print $current_user->employee_num; ?>">
+<input type="hidden" name="earnings_code" value="7">
+<input type="hidden" name="comments">
 
 <tr><td>
 	Date:
 </td><td>
-	<b>$workday</b>&nbsp;
-	<input type=hidden name=workday value=\"$workday\">
+	<b><?PHP print $workday; ?></b>&nbsp;
+	<input type="hidden" name="workday" value="<?PHP print $workday; ?>">
 </td></tr>
 
-<tr><td valign=top>
-	<a href=javascript:job_help();><font color=black>Job:</font></a>
+<tr><td valign="top">
+	<a href="javascript:job_help();"><font color="black">Job:</font></a>
 </td><td>
-	<input type=text name=job_num><br>
-	";recent_jobs($current_user->contacts_id,1);echo"
+	<input type="text" name="job_num" tabindex="1"><br>
+	<?PHP recent_jobs_for_mileage($current_user->contacts_id,1); ?>
 </td></tr>
 
-<tr><td valign=top>
-	<a href=javascript:phase_help();><font color=black>Phase:</font></a>
+<tr><td valign="top">
+	<a href="javascript:phase_help();"><font color="black">Phase:</font></a>
 </td><td>
-	<input type=text name=phase><br>
+	<input type="text" name="phase" tabindex="2"><br>
 </td></tr>
 
 <tr><td>
 	Miles:
 </td><td>
-	<input type=text name=miles>
-	<input type=hidden name=dollars>
+	<input type="text" name="miles" tabindex="3">
+	<input type="hidden" name="dollars">
 </td></tr>
 
-<tr><td colspan=2 align=right>
-	<input type=button onclick=calc_miles(); value=Add>
+<tr><td colspan="2" align="right">
+	<input type="button" onclick="calc_miles();" value="Add" tabindex="4">
 </td</tr>
-<tr><td colspan=2>
+<tr><td colspan="2">
 	Notes<br>
-	<textarea name=notes2 row=4 cols=40></textarea>
+	<textarea name="notes2" row="4" cols="40" tabindex="5"></textarea>
 </td></tr>
-</form>
 </table>
-
+</form>
 <script>
 function job_help() {
-	open('$pagename?mode=timesheet_job_popup','timesheet_popup','height=400,width=400,scrollbars=yes,resizable=yes');
+	open('<?PHP print $pagename; ?>?mode=timesheet_job_popup','timesheet_popup','height=400,width=400,scrollbars=yes,resizable=yes');
 	}
 
 function phase_help() {
-	if (document.add_time.job_num.value=='') {
+	if (document.add_mileage.job_num.value=='') {
 		alert('Error: Please enter a job number first');
 	} else {
-		open ('$pagename?mode=timesheet_phase_spt_popup&job_num=' + document.add_time.job_num.value,'timesheet_popup','height=400,width=500,scrollbars=yes,resizable=yes');
+		open ('<?PHP print $pagename; ?>?mode=timesheet_phase_spt_popup&job_num=' + document.add_mileage.job_num.value,'timesheet_popup','height=400,width=500,scrollbars=yes,resizable=yes');
 	}
 }
 
 function calc_miles() {
-	document.add_time.dollars.value=(Math.round(document.add_time.miles.value * $mileage_rate)/100);
-	document.add_time.comments.value=document.add_time.miles.value + ' miles';
-	document.add_time.submit();
+	document.add_mileage.dollars.value=(Math.round(document.add_mileage.miles.value * <?PHP print $mileage_rate; ?>)/100);
+	document.add_mileage.comments.value=document.add_mileage.miles.value + ' miles';
+	document.add_mileage.submit();
 }
-document.add_time.job_num.focus();
+document.add_mileage.job_num.focus();
 </script>            
-
-
-
-
-";
-
-
-
-
-
-
-
-
-
-echo "</body>";
-?>
+</body>
