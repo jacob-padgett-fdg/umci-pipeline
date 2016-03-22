@@ -64,7 +64,7 @@ if (($current_employee_group!='1') && ($current_employee_group!='3')) {
 	$current_employee_group="3";
 	}
 
-require_once('header.phtml');
+require_once("timesheet_header.phtml");
 	
 if (isset($mode)) {
 	if (is_readable("$mode.phtml")) { 
