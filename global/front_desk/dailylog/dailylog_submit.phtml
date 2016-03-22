@@ -4,13 +4,8 @@ $dailylog_id=addslashes($dailylog_id);
 $old_info=getoneb("select * from dailylog where dailylog_id = '$dailylog_id'");
 
 //if ($old_info->creator_id != $global_user->contacts_id) die("Error: You may only save changes to your own log!");
-
-$creator_info=getoneb("select * from contacts where contacts_id = '$old_info->creator_id'");
-
-
-
-
-
+//$sql = "select * from contacts where contacts_id = '$global_user_id'";
+$creator_info=getoneb("select * from contacts where contacts_id = '$global_user_id'");
 
 
 $project=addslashes($project);
@@ -100,99 +95,284 @@ $sub_excavation_hours=addslashes($sub_excavation_hours);
 
 #######################################################################
 
-$query="update dailylog set 
+// first save the location to the daily log parent record
+if (!empty($location))
+{
+    $sql = "UPDATE `dailylog` SET `location` = '$location' WHERE `dailylog_id` = '$dailylog_id'";
+    $update_result = mysql_query( $sql );
 
-project = '$project',
-description = '$description',
-location = '$location',
-weather = '$weather',
-work_date = '$work_date',
-work_progress = '$work_progress',
-materials_received = '$materials_received',
-new_hires = '$new_hires',
-new_hire_safety_training = '$new_hire_safety_training',
-work_hinderances = '$work_hinderances',
-accidents = '$accidents',
+}
 
-our_general_foreman_count = '$our_general_foreman_count',
-our_plumbing_foreman_count= '$our_plumbing_foreman_count',
-our_plumbing_journeyman_count = '$our_plumbing_journeyman_count',
-our_plumbing_apprentice_count = '$our_plumbing_apprentice_count',
-our_steamfitter_foreman_count = '$our_steamfitter_foreman_count',
-our_steamfitter_journeyman_count = '$our_steamfitter_journeyman_count',
-our_steamfitter_apprentice_count = '$our_steamfitter_apprentice_count',
-our_laborer_count = '$our_laborer_count',
-our_truck_driver_count= '$our_truck_driver_count',
-our_operating_engineer_count = '$our_operating_engineer_count',
-our_millwright_count = '$our_millwright_count',
-our_carpenter_count = '$our_carpenter_count',
-our_sheetmetal_count = '$our_sheetmetal_count',
-our_sheetmetal_foreman_count = '$our_sheetmetal_foreman_count',
-our_sheetmetal_journeyman_count = '$our_sheetmetal_journeyman_count',
-our_sheetmetal_apprentice_count = '$our_sheetmetal_apprentice_count',
-our_helper_count = '$our_helper_count',
-our_refrigeration_count = '$our_refrigeration_count',
+if (!empty($work_hinderances))
+{
+    $sql = "UPDATE `dailylog` SET `work_hinderances` = '$work_hinderances' WHERE `dailylog_id` = '$dailylog_id'";
+    $update_result = mysql_query( $sql );
+}
 
-sub_temperature_control_count = '$sub_temperature_control_count',
-sub_insulation_count = '$sub_insulation_count',
-sub_painter_count = '$sub_painter_count',
-sub_sewer_men_count = '$sub_sewer_men_count',
-sub_electrician_count = '$sub_electrician_count',
-sub_refrigeration_count = '$sub_refrigeration_count',
-sub_air_balance_count = '$sub_air_balance_count',
-sub_sheet_metal_count = '$sub_sheet_metal_count',
-sub_core_drill_count = '$sub_core_drill_count',
-sub_fire_caulk_count = '$sub_fire_caulk_count',
-sub_fire_protection_count = '$sub_fire_protection_count',
-sub_chemical_treatment_count = '$sub_chemical_treatment_count',
-sub_fuel_tank_install_and_piping_count = '$sub_fuel_tank_install_and_piping_count',
-sub_excavation_count = '$sub_excavation_count',
+$sql = "UPDATE `dailylog` SET `work_date` = '$work_date' WHERE `dailylog_id` = '$dailylog_id'";
+$update_result = mysql_query( $sql );
 
-our_general_foreman_hours = '$our_general_foreman_hours',
-our_plumbing_foreman_hours= '$our_plumbing_foreman_hours',
-our_plumbing_journeyman_hours = '$our_plumbing_journeyman_hours',
-our_plumbing_apprentice_hours = '$our_plumbing_apprentice_hours',
-our_steamfitter_foreman_hours = '$our_steamfitter_foreman_hours',
-our_steamfitter_journeyman_hours = '$our_steamfitter_journeyman_hours',
-our_steamfitter_apprentice_hours = '$our_steamfitter_apprentice_hours',
-our_laborer_hours = '$our_laborer_hours',
-our_truck_driver_hours= '$our_truck_driver_hours',
-our_operating_engineer_hours = '$our_operating_engineer_hours',
-our_millwright_hours = '$our_millwright_hours',
-our_carpenter_hours = '$our_carpenter_hours',
-our_sheetmetal_hours = '$our_sheetmetal_hours',
-our_sheetmetal_foreman_hours = '$our_sheetmetal_foreman_hours',
-our_sheetmetal_journeyman_hours = '$our_sheetmetal_journeyman_hours',
-our_sheetmetal_apprentice_hours = '$our_sheetmetal_apprentice_hours',
-our_helper_hours = '$our_helper_hours',
-our_refrigeration_hours = '$our_refrigeration_hours',
+$query = "";
 
-sub_temperature_control_hours = '$sub_temperature_control_hours',
-sub_insulation_hours = '$sub_insulation_hours',
-sub_painter_hours = '$sub_painter_hours',
-sub_sewer_men_hours = '$sub_sewer_men_hours',
-sub_electrician_hours = '$sub_electrician_hours',
-sub_refrigeration_hours = '$sub_refrigeration_hours',
-sub_air_balance_hours = '$sub_air_balance_hours',
-sub_sheet_metal_hours = '$sub_sheet_metal_hours',
-sub_core_drill_hours = '$sub_core_drill_hours',
-sub_fire_caulk_hours = '$sub_fire_caulk_hours',
-sub_fire_protection_hours = '$sub_fire_protection_hours',
-sub_chemical_treatment_hours = '$sub_chemical_treatment_hours',
-sub_fuel_tank_install_and_piping_hours = '$sub_fuel_tank_install_and_piping_hours',
-sub_excavation_hours = '$sub_excavation_hours'
-
-where dailylog_id = '$old_info->dailylog_id'
-
+if ($log_status == "new")
+{
+    $query = "INSERT INTO `dailylog_entries`
+    (`dailylog_id`,
+    `entry_type`,
+    `creator_id`,
+    `work_date`,
+    `location`,
+    `weather`,
+    `work_progress`,
+    `work_hinderances`,
+    `accidents`,
+    `materials_received`,
+    `new_hires`,
+    `new_hire_safety_training`,
+    `our_general_foreman_count`,
+    `our_plumbing_foreman_count`,
+    `our_plumbing_journeyman_count`,
+    `our_plumbing_apprentice_count`,
+    `our_steamfitter_foreman_count`,
+    `our_steamfitter_journeyman_count`,
+    `our_steamfitter_apprentice_count`,
+    `our_laborer_count`,
+    `our_truck_driver_count`,
+    `our_operating_engineer_count`,
+    `our_millwright_count`,
+    `our_carpenter_count`,
+    `our_sheetmetal_count`,
+    `our_sheetmetal_foreman_count`,
+    `our_sheetmetal_journeyman_count`,
+    `our_sheetmetal_apprentice_count`,
+    `our_helper_count`,
+    `our_refrigeration_count`,
+    `sub_temperature_control_count`,
+    `sub_insulation_count`,
+    `sub_painter_count`,
+    `sub_sewer_men_count`,
+    `sub_electrician_count`,
+    `sub_refrigeration_count`,
+    `sub_air_balance_count`,
+    `sub_sheet_metal_count`,
+    `sub_core_drill_count`,
+    `sub_fire_caulk_count`,
+    `sub_fire_protection_count`,
+    `sub_chemical_treatment_count`,
+    `sub_fuel_tank_install_and_piping_count`,
+    `sub_excavation_count`,
+    `our_general_foreman_hours`,
+    `our_plumbing_foreman_hours`,
+    `our_plumbing_journeyman_hours`,
+    `our_plumbing_apprentice_hours`,
+    `our_steamfitter_foreman_hours`,
+    `our_steamfitter_journeyman_hours`,
+    `our_steamfitter_apprentice_hours`,
+    `our_laborer_hours`,
+    `our_truck_driver_hours`,
+    `our_operating_engineer_hours`,
+    `our_millwright_hours`,
+    `our_carpenter_hours`,
+    `our_sheetmetal_hours`,
+    `our_sheetmetal_foreman_hours`,
+    `our_sheetmetal_journeyman_hours`,
+    `our_sheetmetal_apprentice_hours`,
+    `our_helper_hours`,
+    `our_refrigeration_hours`,
+    `sub_temperature_control_hours`,
+    `sub_insulation_hours`,
+    `sub_painter_hours`,
+    `sub_sewer_men_hours`,
+    `sub_electrician_hours`,
+    `sub_refrigeration_hours`,
+    `sub_air_balance_hours`,
+    `sub_sheet_metal_hours`,
+    `sub_core_drill_hours`,
+    `sub_fire_caulk_hours`,
+    `sub_fire_protection_hours`,
+    `sub_chemical_treatment_hours`,
+    `sub_fuel_tank_install_and_piping_hours`,
+    `sub_excavation_hours`)
+    VALUES
+    ('$dailylog_id',
+    '$entry_type',
+    '$global_user_id',
+    '$work_date',
+    '$location',
+    '$weather',
+    '$work_progress',
+    '$work_hinderances',
+    '$accidents',
+    '$materials_received',
+    '$new_hires',
+    '$new_hire_safety_training',
+    '$our_general_foreman_count',
+    '$our_plumbing_foreman_count',
+    '$our_plumbing_journeyman_count',
+    '$our_plumbing_apprentice_count',
+    '$our_steamfitter_foreman_count',
+    '$our_steamfitter_journeyman_count',
+    '$our_steamfitter_apprentice_count',
+    '$our_laborer_count',
+    '$our_truck_driver_count',
+    '$our_operating_engineer_count',
+    '$our_millwright_count',
+    '$our_carpenter_count',
+    '$our_sheetmetal_count',
+    '$our_sheetmetal_foreman_count',
+    '$our_sheetmetal_journeyman_count',
+    '$our_sheetmetal_apprentice_count',
+    '$our_helper_count',
+    '$our_refrigeration_count',
+    '$sub_temperature_control_count',
+    '$sub_insulation_count',
+    '$sub_painter_count',
+    '$sub_sewer_men_count',
+    '$sub_electrician_count',
+    '$sub_refrigeration_count',
+    '$sub_air_balance_count',
+    '$sub_sheet_metal_count',
+    '$sub_core_drill_count',
+    '$sub_fire_caulk_count',
+    '$sub_fire_protection_count',
+    '$sub_chemical_treatment_count',
+    '$sub_fuel_tank_install_and_piping_count',
+    '$sub_excavation_count',
+    '$our_general_foreman_hours',
+    '$our_plumbing_foreman_hours',
+    '$our_plumbing_journeyman_hours',
+    '$our_plumbing_apprentice_hours',
+    '$our_steamfitter_foreman_hours',
+    '$our_steamfitter_journeyman_hours',
+    '$our_steamfitter_apprentice_hours',
+    '$our_laborer_hours',
+    '$our_truck_driver_hours',
+    '$our_operating_engineer_hours',
+    '$our_millwright_hours',
+    '$our_carpenter_hours',
+    '$our_sheetmetal_hours',
+    '$our_sheetmetal_foreman_hours',
+    '$our_sheetmetal_journeyman_hours',
+    '$our_sheetmetal_apprentice_hours',
+    '$our_helper_hours',
+    '$our_refrigeration_hours',
+    '$sub_temperature_control_hours',
+    '$sub_insulation_hours',
+    '$sub_painter_hours',
+    '$sub_sewer_men_hours',
+    '$sub_electrician_hours',
+    '$sub_refrigeration_hours',
+    '$sub_air_balance_hours',
+    '$sub_sheet_metal_hours',
+    '$sub_core_drill_hours',
+    '$sub_fire_caulk_hours',
+    '$sub_fire_protection_hours',
+    '$sub_chemical_treatment_hours',
+    '$sub_fuel_tank_install_and_piping_hours',
+    '$sub_excavation_hours')
 ";
 
-//die($query);
-$res=@mysql_query($query);
+    $query = str_replace("''","NULL",$query);
+    $query = utf8_encode ($query);
+    
+    //die($query);
+    $res=mysql_query($query) or die("Application error! Failed to update record! Failed query:<hr>$query<hr>" . mysql_error());
 
-if (!($res)) die("Application error! Failed to update record! Failed query:<hr>$query");
+    $dailylog_entries_id = mysql_insert_id();
+}
+else
+{
+    $query="update `dailylog_entries` set 
+    
+    location = '$location',
+    weather = '$weather',
+    work_date = '$work_date',
+    work_progress = '$work_progress',
+    materials_received = '$materials_received',
+    new_hires = '$new_hires',
+    new_hire_safety_training = '$new_hire_safety_training',
+    work_hinderances = '$work_hinderances',
+    accidents = '$accidents',
+    
+    our_general_foreman_count = '$our_general_foreman_count',
+    our_plumbing_foreman_count= '$our_plumbing_foreman_count',
+    our_plumbing_journeyman_count = '$our_plumbing_journeyman_count',
+    our_plumbing_apprentice_count = '$our_plumbing_apprentice_count',
+    our_steamfitter_foreman_count = '$our_steamfitter_foreman_count',
+    our_steamfitter_journeyman_count = '$our_steamfitter_journeyman_count',
+    our_steamfitter_apprentice_count = '$our_steamfitter_apprentice_count',
+    our_laborer_count = '$our_laborer_count',
+    our_truck_driver_count= '$our_truck_driver_count',
+    our_operating_engineer_count = '$our_operating_engineer_count',
+    our_millwright_count = '$our_millwright_count',
+    our_carpenter_count = '$our_carpenter_count',
+    our_sheetmetal_count = '$our_sheetmetal_count',
+    our_sheetmetal_foreman_count = '$our_sheetmetal_foreman_count',
+    our_sheetmetal_journeyman_count = '$our_sheetmetal_journeyman_count',
+    our_sheetmetal_apprentice_count = '$our_sheetmetal_apprentice_count',
+    our_helper_count = '$our_helper_count',
+    our_refrigeration_count = '$our_refrigeration_count',
+    
+    sub_temperature_control_count = '$sub_temperature_control_count',
+    sub_insulation_count = '$sub_insulation_count',
+    sub_painter_count = '$sub_painter_count',
+    sub_sewer_men_count = '$sub_sewer_men_count',
+    sub_electrician_count = '$sub_electrician_count',
+    sub_refrigeration_count = '$sub_refrigeration_count',
+    sub_air_balance_count = '$sub_air_balance_count',
+    sub_sheet_metal_count = '$sub_sheet_metal_count',
+    sub_core_drill_count = '$sub_core_drill_count',
+    sub_fire_caulk_count = '$sub_fire_caulk_count',
+    sub_fire_protection_count = '$sub_fire_protection_count',
+    sub_chemical_treatment_count = '$sub_chemical_treatment_count',
+    sub_fuel_tank_install_and_piping_count = '$sub_fuel_tank_install_and_piping_count',
+    sub_excavation_count = '$sub_excavation_count',
+    
+    our_general_foreman_hours = '$our_general_foreman_hours',
+    our_plumbing_foreman_hours= '$our_plumbing_foreman_hours',
+    our_plumbing_journeyman_hours = '$our_plumbing_journeyman_hours',
+    our_plumbing_apprentice_hours = '$our_plumbing_apprentice_hours',
+    our_steamfitter_foreman_hours = '$our_steamfitter_foreman_hours',
+    our_steamfitter_journeyman_hours = '$our_steamfitter_journeyman_hours',
+    our_steamfitter_apprentice_hours = '$our_steamfitter_apprentice_hours',
+    our_laborer_hours = '$our_laborer_hours',
+    our_truck_driver_hours= '$our_truck_driver_hours',
+    our_operating_engineer_hours = '$our_operating_engineer_hours',
+    our_millwright_hours = '$our_millwright_hours',
+    our_carpenter_hours = '$our_carpenter_hours',
+    our_sheetmetal_hours = '$our_sheetmetal_hours',
+    our_sheetmetal_foreman_hours = '$our_sheetmetal_foreman_hours',
+    our_sheetmetal_journeyman_hours = '$our_sheetmetal_journeyman_hours',
+    our_sheetmetal_apprentice_hours = '$our_sheetmetal_apprentice_hours',
+    our_helper_hours = '$our_helper_hours',
+    our_refrigeration_hours = '$our_refrigeration_hours',
+    
+    sub_temperature_control_hours = '$sub_temperature_control_hours',
+    sub_insulation_hours = '$sub_insulation_hours',
+    sub_painter_hours = '$sub_painter_hours',
+    sub_sewer_men_hours = '$sub_sewer_men_hours',
+    sub_electrician_hours = '$sub_electrician_hours',
+    sub_refrigeration_hours = '$sub_refrigeration_hours',
+    sub_air_balance_hours = '$sub_air_balance_hours',
+    sub_sheet_metal_hours = '$sub_sheet_metal_hours',
+    sub_core_drill_hours = '$sub_core_drill_hours',
+    sub_fire_caulk_hours = '$sub_fire_caulk_hours',
+    sub_fire_protection_hours = '$sub_fire_protection_hours',
+    sub_chemical_treatment_hours = '$sub_chemical_treatment_hours',
+    sub_fuel_tank_install_and_piping_hours = '$sub_fuel_tank_install_and_piping_hours',
+    sub_excavation_hours = '$sub_excavation_hours'
+    
+    where dailylog_entries_id = '$dailylog_entries_id'
+    
+    ";
+    
+    $query = str_replace("''","NULL",$query);
+    $query = utf8_encode ($query);
+    
+    //die($query);
+    $res=mysql_query($query) or die("Application error! Failed to update record! Failed query:<hr>$query<hr>" . mysql_error());
+}
 
-forward("dailylog_edit&dailylog_id=$old_info->dailylog_id");
-
-
-
+forward("dailylog_view&dailylog_id=$old_info->dailylog_id");
+//http://localhost/global/front_desk/dailylog/index.php?mode=dailylog_view&dailylog_id=9301
 ?>
