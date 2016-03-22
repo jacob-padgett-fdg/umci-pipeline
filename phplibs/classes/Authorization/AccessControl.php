@@ -5,7 +5,6 @@
  * Date: 12/9/14
  * Time: 11:51 AM
  */
-
 namespace classes\Authorization;
 
 require_once('classes/Data/Role.php');

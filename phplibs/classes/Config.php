@@ -13,7 +13,6 @@ define('DIR_VIEWS',     DIR_BASE . 'views/');
 /**
  * Class Config - load site ini with local overrides
  */
-
 class Config {
 
     const BASE_DIR = "/../config/";

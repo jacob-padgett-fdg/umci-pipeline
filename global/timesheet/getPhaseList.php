@@ -4,7 +4,7 @@ session_start();
 global $use_odbc;
 global $global_user;
 
-$use_odbc = 0;
+$use_odbc = 1;
 
 require_once("settings.cfg");
 require_once("querylib.inc");
