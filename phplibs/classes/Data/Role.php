@@ -7,7 +7,9 @@
  */
 
 namespace classes\Data;
+
 require_once('BaseDataAccess.php');
+
 class Role extends BaseDataAccess
 {
     public $table = 'role';

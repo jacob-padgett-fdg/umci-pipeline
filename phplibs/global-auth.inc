@@ -1,7 +1,7 @@
 <?php
-session_start();
 
 require_once('classes/Authorization/AccessControl.php');
+
 use classes\Authorization\AccessControl;
 
 ////$debug = 1;
@@ -14,10 +14,8 @@ require_once('querylib.inc');
 require_once('auth_functions.inc');
 
 // TBC TEMP CODE
-if (true) {
-    $dbserver = '127.0.0.1:3306';
-	$auth_database_user = "globalreadwrite";
-	$auth_database_pass = "";
+if (true || !isset($dbserver)) {
+    $dbserver = 'localhost:3306';
 }
 //$dbserver='10.0.0.23';
 $devel = "";
@@ -39,27 +37,26 @@ if ($mode != "") {
 //    $inifile = $_SERVER['DOCUMENT_ROOT'] . '/config/config.ini'; //run on webserver
 //else
 //* but the following well-tested old code should renable scripts w/o breaking webserver
-    if (file_exists(realpath('/data/web/pipeline/config/site.ini')))
-        $inifile = '/data/web/pipeline/config/site.ini';
+    if (file_exists(realpath('/data/web/pipeline/config/config.ini')))
+        $inifile = '/data/web/pipeline/config/config.ini';
 
 $config = parse_ini_file($inifile);
+
 // FRON-41 Read in company id if it's present; This is used to
 // restrict invoice tallies by company.
 if (isset($config['company_id'])) {
     $_SESSION['companyId'] = $config->company_id;
 }
 
-$auth_database_user="globalreadwrite";
-$auth_database_pass="";
+/*$auth_database_user="globalreadwrite";
+$auth_database_pass="poilkjbnm";
 $auth_database_name="global";
-$encryption_seed='zed';
+$encryption_seed='zed';*/
 
-/*
 $auth_database_user = $config['db_user'];
 $auth_database_pass = $config['db_pass'];
 $auth_database_name = $config['db_name'];
 $encryption_seed = $config['encryption_seed'];
-*/
 
 //session_name('sess-' . $auth_database_name);
 //session_start();
@@ -95,7 +92,7 @@ if ($kill_session_info) {
 if ($auth_backend_user_logged_in!='authenticated') $auth_backend_user_logged_in=FALSE;
 
 if (!($auth_object)) {
-	$auth_object->check_web_pw = 'Y'; // Check #2 - done
+    $auth_object->check_web_pw = 'Y'; // Check #2 - done
     $auth_object->check_smb_pw = 'Y'; // Check #3 - done
     $auth_object->check_webfile_exceptions = 'N';
     $auth_object->check_access_permission = 'Y'; // Check #4 - done
@@ -185,16 +182,17 @@ if (!($auth_backend_user_logged_in)) {
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
     if ($auth_object->check_web_pw == 'Y') {
-		if ($SYSTEM_AUTH_REQUESTED == '1') {
-			if (($auth_user_name != "") && ($auth_user_pass != "")) {
+        if ($SYSTEM_AUTH_REQUESTED == '1') {
+            if (($auth_user_name != "") && ($auth_user_pass != "")) {
                 $auth_user_name = addslashes(trim($auth_user_name));
                 $auth_user_pass = addslashes($auth_user_pass);
-				$auth_link_id = @mysql_connect($dbserver, $auth_database_user, $auth_database_pass);
+
+                $auth_link_id = @mysql_connect("$dbserver", $auth_database_user, $auth_database_pass);
                 @mysql_select_db("$auth_database_name");
-				$global_user = getoneb("select * from contacts where login_name = '$auth_user_name' and web_password = '$auth_user_pass' and current = 'Y'");
+                $global_user = getoneb("select * from contacts where login_name = '$auth_user_name' and web_password = '$auth_user_pass' and current = 'Y'");
                 @mysql_close($auth_link_id);
                 if ($global_user) {
-					$auth_backend_user_logged_in = 'authenticated';
+                    $auth_backend_user_logged_in = 'authenticated';
                     $auth_backend_database_username = $auth_database_user;
                     $auth_backend_database_password = $auth_database_pass;
                     $auth_backend_database_global_user_id = $global_user->contacts_id;
@@ -207,6 +205,7 @@ if (!($auth_backend_user_logged_in)) {
         }
     }
 } // End of auth plugin. It's skipped if we're logged in already
+
 
 // Skip the authentication method if we're already logged in happily.
 if (!($auth_backend_user_logged_in)) {
@@ -262,7 +261,6 @@ if (eregi("msie", $HTTP_USER_AGENT)) {
         $GOOGLE_CHROME_FRAME_NEEDED = TRUE;
     }
 }
-//print "Test Log In 1: " . $auth_backend_user_logged_in;
 $global_user_id = $global_user->contacts_id;
 $global_user_name = $global_user->login_name;
 if ($global_jobinfo_id_set != "") {
@@ -279,6 +277,7 @@ if ($global_jobinfo_id == "") {
 }
 $adminuser = FALSE;
 $dbname = $auth_database_name;
+
 $pagename = "$SCRIPT_NAME";
 $pagename_up = eregi_replace("/[^/]*/[^/]*$", "/", $SCRIPT_NAME);
 $pagedir = eregi_replace("/[^/]*$", "", $SCRIPT_NAME);
@@ -357,11 +356,9 @@ if ($devel != "-devel") {
 // to be going to before this all started.
 /////////////////////////////////////////////////////////////////
 
-
 if ($auth_backend_target_uri != "") {
     $target_uri = base64_decode($auth_backend_target_uri);
-	//die($target_uri);
-	$target_uri = ereg_replace("kill_session_info=1", "new_login=true", $target_uri);
+    $target_uri = ereg_replace("kill_session_info=1", "new_login=true", $target_uri);
     echo "
 <META HTTP-EQUIV=\"REFRESH\" CONTENT=\"0; URL=" . $target_uri . "\">
 <html>
@@ -373,7 +370,6 @@ Loading requested page.. Please wait just one second, or click <a href=" . $targ
     exit;
 }
 
-//die("Test Login 2: " . $auth_backend_user_logged_in);
 if ($global_user) {
 // This check only matters if you're a valid "logged in" user
 ////////////////////////////////////////////////////////////////
@@ -458,8 +454,8 @@ if ($auth_object->require_local_or_logged_in_employee == 'Y') {
 }
 
 if ($auth_object->require_login == 'Y') {
-	if (($auth_backend_user_logged_in != 'authenticated') || (!($global_user)) && (!($webfile_and_readable))) {
-		if ($alt != 2) include('global-auth-login-code.inc');
+    if (($auth_backend_user_logged_in != 'authenticated') || (!($global_user)) && (!($webfile_and_readable))) {
+        if ($alt != 2) include('global-auth-login-code.inc');
         else include('global-auth-login-code-beta.inc');
     }
 }
