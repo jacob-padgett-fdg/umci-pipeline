@@ -1,5 +1,5 @@
 <?
-require('header.phtml');
+require_once('header.phtml');
 fd_navs_header();
 
 /*
@@ -11,6 +11,8 @@ while ($row=@mysql_fetch_object($res)) {
 	}
 die();
 */
+
+
 if (($drawing_id=="")&&($drawinglog_id!="")) $drawing_id=$drawinglog_id;
 
 if ($drawing_id!="") {
@@ -35,11 +37,15 @@ if ($drawing_id!="") {
 		}
 	$drawing_info->description=htmlspecialchars($drawing_info->description);
 	}
+
+	
+
+
 if ($jobinfo_id=="") $jobinfo_id=$global_jobinfo_id;
 $jobinfo_id=addslashes($jobinfo_id);
 $jobinfo=getone("select * from jobinfo where jobinfo_id = '$jobinfo_id'");
 if (!($jobinfo)) die("ERROR: No job information! Please contact your system administrator!");
-require('header.phtml');
+require_once('header.phtml');
 
 $css_val='visibility';
 $hid_val='hidden';
@@ -98,8 +104,8 @@ function check_sub_status() {
 		}
 	}
 function ajax_trigger() {
-	open('javascript:close();','webfile_popup','');
-	apply_changes();
+	//open('javascript:close();','webfile_popup','');
+	//apply_changes();
 	}
 function apply_changes() {
 	document.drawinglog_edit.savemode.value='apply';
@@ -118,6 +124,8 @@ function del_rev(rev) {
 		document.location='$pagename?mode=dwg_rev_delete&dwg_rev_id=' + rev;
 	}
 ";
+
+
 if (($adminuser)&&($drawing_info)) {
 	echo "
 	function mega_warning() {
@@ -129,6 +137,7 @@ if (($adminuser)&&($drawing_info)) {
 	";
 	}
 
+	// last checked here
 echo "
 </script>
 
@@ -299,7 +308,6 @@ echo "
 ";
 
 
-
 $udcount=0;
 $extra_fields="";
 if ($jobinfo->fd_dwg_cust_1_used=='Y') {
@@ -459,7 +467,7 @@ if ($rev_query_count > 0) {
 		}
 	</script>
 	";
-	
+		
 	while ($revrow=@mysql_fetch_object($rev_query_res)) {
 		$revdate=invali_date($revrow->rev_date);
 		$stfdate=invali_date($revrow->sent_to_field_date);
@@ -541,7 +549,6 @@ if ($rev_query_count > 0) {
 	";
 	}
 
-
 //if ($drawing_info->not_new) {
 	echo "<p><table border=1 cellspacing=0 cellpadding=4>
 	<tr bgcolor=\"$fd_color_4\"><td align=center>
@@ -571,10 +578,12 @@ if ($rev_query_count > 0) {
 		}
 //	}
 echo"</table>
+
 <script>
 check_sub_status();
 </script>
 ";
 }
+
 fd_navs_footer();
 ?>

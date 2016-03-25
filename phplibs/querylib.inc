@@ -4391,25 +4391,28 @@ function warn_chrome_plugin() {
             $my_home_color = $selectedcolor;
             if (($mode == "") || ($mode == "main")) $my_home_color = $fd_color_1;
         }
+        
         ajax_load();
+        
         //$watermark="url(/images/fd_watermark.jpg)";
         $watermark = "url(/images/fd_watermark.jpg)";
 
         if ($GLOBALS['HTTP_HOST'] == "pipeline-devel.umci.com") {
             $watermark = "url(/images/fd_watermark_devel.jpg)";
         }
-
+        
         echo "
 	<div class=noprint style=\"z-index: 2; position: absolute; width: 350px; display: none; background: white; border: 1px solid black;\" id=\"my_jobs_drop\" onmouseout=\"hide_my_jobs();\" onmouseover=\"show_my_jobs();\"><b>Loading List..</b><br>please wait</div>
 	<div class=noprint style=\"z-index: 2; position: absolute; width: 350px; display: none; background: white; border: 1px solid black;\" id=\"recent_jobs_drop\" onmouseout=\"hide_recent_jobs();\" onmouseover=\"show_recent_jobs();\"><b>Loading List..</b><br>please wait</div>
+";
 
-	<table class=noprint id='fd_main_application_window' style=\"border-collapse: collapse; border: 1px solid black;\" cellspacing=0 width=100% cellpadding=0>
-	<tr class=noprint bgcolor=\"$my_home_color\"><td id=\"fd_my_home_nav_button\" style=\"border-right: 1px solid black;height:70px;\" align=center><a href=\"/global/front_desk$devel?mode=my_home\"><font class=noprint color=blue><b>My&nbsp;Home</b></font></a></td><td colspan=2 style=\"border-bottom: 1px solid black;\" class=noprint id=fd_top_nav>&nbsp;</td></tr>
-	<tr class=noprint ><td width=5% valign=top bgcolor=\"$fd_color_1\" rowspan=2 id=\"fd_left_nav\">&nbsp;</td><td width=30px rowspan=2>&nbsp;</td><td valign=top height=30px id=\"application_menu\"><div id=\"fd_doc_tools\" class=noprint style=\"float: left;\"></div><div id=\"fd_doc_queue\" style=\"position: absolute; right: 40px; z-index: 4;\"></div></td></td></tr><tr><td style=\"background: $watermark; background-repeat: repeat;\" valign=top align=left>
-	
-	";
+echo "<table class=noprint id='fd_main_application_window' style=\"border-collapse: collapse; border: 1px solid black;\" cellspacing=0 width=100% cellpadding=0>";
+echo "<tr class=noprint bgcolor=\"$my_home_color\"><td id=\"fd_my_home_nav_button\" style=\"border-right: 1px solid black;height:70px;\" align=center><a href=\"/global/front_desk$devel?mode=my_home\"><font class=noprint color=blue><b>My Home</b></font></a></td><td colspan=2 style=\"border-bottom: 1px solid black;\" class=noprint id=fd_top_nav>&nbsp;</td></tr>";
+echo "<tr class=noprint ><td width=5% valign=top bgcolor=\"$fd_color_1\" rowspan=2 id=\"fd_left_nav\">&nbsp;</td><td width=30px rowspan=2>&nbsp;</td><td valign=top height=30px id=\"application_menu\"><div id=\"fd_doc_tools\" class=noprint style=\"float: left;\"></div><div id=\"fd_doc_queue\" style=\"position: absolute; right: 40px; z-index: 4;\"></div></td></td></tr><tr><td style=\"background: $watermark; background-repeat: repeat;\" valign=top align=left>";
+    
         contact_view_javascript();
         fd_load_navs();
+        
     }
 
     function fd_navs_footer()

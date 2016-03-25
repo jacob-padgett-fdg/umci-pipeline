@@ -468,6 +468,7 @@ div.reset_control {
     font-style: italic;
 }
 
+
 table.standard tbody tr {
     color: #555;
 }
@@ -499,90 +500,4 @@ div.container-fluid {
 
 td.po-cost {
     text-align: right;
-}
-
-#my_jobs_drop, #recent_jobs_drop {
-    z-index: 2;
-    position: absolute;
-    width: 350px;
-    display: none;
-    background: white;
-    border: 1px solid black;
-}
-
-.custom-combobox {
-    position: relative;
-    display: inline-block;
-  }
-  .custom-combobox-toggle {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin-left: -1px;
-    padding: 0;
-  }
-  .custom-combobox-input {
-    margin: 0;
-    padding: 2px 2px;
-    height: 32px;
-  }
-  
-  body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > a {
-    height: 21px;
-    position: relative;
-    top: -1px;
-    background: #FFFFFF;
-    border-color: #999999;
-  }
-  
-  span.custom-combobox:nth-child(3) > a:nth-child(2) {
-    height: 21px;
-    position: relative;
-    top: -1px;
-    background: #FFFFFF;
-    border-color: #999999;
-  }
-  
-  body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > input, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > input {
-    height: 17px;
-    background: #ffffff;
-    border-bottom-left-radius: 0px;
-    border-top-left-radius: 0px;
-    border-color: #999999;
-    font-family: times;
-    color: #000;
-    font-size: .8em;
-  }
-  
-  body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > input {
-    width: 50px;
-  }
-
-.ui-autocomplete {
-    max-height: 100px;
-    overflow-y: auto;
-    /* prevent horizontal scrollbar */
-    overflow-x: hidden;
-  }
-  
-  .ui-menu-item {
-    font-family: times;
-    color: #000;
-    font-size: .8em;
-  }
-
-  /* IE 6 doesn't support max-height
-   * we use height instead, but this forces the menu to always be this tall
-   */
-  * html .ui-autocomplete {
-
-    height: 100px;
-
-  }
-
-/*This will work for firefox*/
-@-moz-document url-prefix() {
-    body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > a {
-    
-  }
 }
