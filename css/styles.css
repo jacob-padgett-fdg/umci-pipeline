@@ -501,3 +501,66 @@ div.container-fluid {
 td.po-cost {
     text-align: right;
 }
+
+.custom-combobox {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .custom-combobox-toggle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+  }
+  .custom-combobox-input
+  {
+    margin: 0;
+    padding: 2px 2px;
+    height: 32px;
+  }
+  
+  body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > a {
+    height: 21px;
+    position: relative;
+    top: -1px;
+    background: #FFFFFF;
+    border-color: #999999;
+  }
+  
+  span.custom-combobox:nth-child(3) > a:nth-child(2) {
+    height: 21px;
+    position: relative;
+    top: -1px;
+    background: #FFFFFF;
+    border-color: #999999;
+  }
+  
+  body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > input, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > input {
+    height: 17px;
+    background: #ffffff;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    border-color: #999999;
+    font-family: times;
+    color: #000;
+    font-size: .8em;
+  }
+  
+  body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > input {
+    width: 50px;
+  }
+
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+  
+  .ui-menu-item {
+    font-family: times;
+    color: #000;
+    font-size: .8em;
+  }

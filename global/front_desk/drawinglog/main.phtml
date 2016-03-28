@@ -2,7 +2,7 @@
 require_once('classes/ReportTable.php');
 use classes\ReportTable\ReportTable;
 
-require('header.php');
+require_once('header.php');
 
 fd_navs_header();
 //if ($global_user->umc_emp=='Y')
@@ -49,6 +49,7 @@ function quick_form(field,item) {
 	item.onclick_save=item.onclick;
 	ajaxManager('load_form','$pagename?mode=quick_form&field=' + field + '&drawing_id=' + item.parentNode.id,item.id);
 	}
+	
 function save_data(dwg_id,field,item) {
 	item.style.background='yellow';
 	document.getElementById(field + '_' + dwg_id).onclick_save='';
