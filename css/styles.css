@@ -506,7 +506,7 @@ td.po-cost {
     position: relative;
     display: inline-block;
   }
-  
+
   .custom-combobox-toggle {
     position: absolute;
     top: 0;
@@ -520,7 +520,7 @@ td.po-cost {
     padding: 2px 2px;
     height: 32px;
   }
-  
+
   body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > a, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > a {
     height: 21px;
     position: relative;
@@ -528,7 +528,7 @@ td.po-cost {
     background: #FFFFFF;
     border-color: #999999;
   }
-  
+
   span.custom-combobox:nth-child(3) > a:nth-child(2) {
     height: 21px;
     position: relative;
@@ -536,7 +536,7 @@ td.po-cost {
     background: #FFFFFF;
     border-color: #999999;
   }
-  
+
   body > div.timesheet_content > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > span > input, body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > input {
     height: 17px;
     background: #ffffff;
@@ -547,7 +547,7 @@ td.po-cost {
     color: #000;
     font-size: .8em;
   }
-  
+
   body > div.timesheet_content > form > table > tbody > tr:nth-child(2) > td > span > input {
     width: 50px;
   }
@@ -558,9 +558,13 @@ td.po-cost {
     /* prevent horizontal scrollbar */
     overflow-x: hidden;
   }
-  
+
   .ui-menu-item {
     font-family: times;
     color: #000;
     font-size: .8em;
   }
+
+.flt {
+    float: left;
+}
